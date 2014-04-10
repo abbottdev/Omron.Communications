@@ -11,8 +11,7 @@ namespace Omron.Commands
     }
 
     public interface ICommand
-    {
-
+    { 
         CommandTypes CommandType { get; }
     }
 }

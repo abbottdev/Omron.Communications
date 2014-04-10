@@ -68,9 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Builder.csproj">
+    <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Expressions.csproj">
       <Project>{8031bb8e-59d7-48ad-b615-b3211ea80f29}</Project>
-      <Name>Omron.Commands.Builder</Name>
+      <Name>Omron.Commands.Expressions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Commands\Omron.Commands.csproj">
       <Project>{d6e4f767-967b-4d00-8ef4-3c501649c9eb}</Project>
@@ -78,7 +78,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Omron.Communications.Tcp\Omron.Communications.Windows.Tcp.csproj">
       <Project>{38dfa4fb-fc06-43f5-8915-ee387ede9632}</Project>
-      <Name>Omron.Communications.Tcp</Name>
+      <Name>Omron.Communications.Windows.Tcp</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Communications.Windows.SerialPort\Omron.Communications.Windows.SerialPort.csproj">
       <Project>{63907897-98e0-4dd3-92c9-a606237e8359}</Project>
@@ -92,9 +92,9 @@
       <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>
       <Name>Omron.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Fins.Command.Builder\Omron.Commands.Builder.Fins.csproj">
+    <ProjectReference Include="..\Omron.Fins.Command.Builder\Omron.Commands.Generators.Fins.csproj">
       <Project>{dc80c5c7-af39-4b74-951c-9f07a9d8c7bb}</Project>
-      <Name>Omron.Commands.Builder.Fins</Name>
+      <Name>Omron.Commands.Generators.Fins</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
       <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>

@@ -11,7 +11,7 @@
     <RootNamespace>Omron.Responses.Fins</RootNamespace>
     <AssemblyName>Omron.Responses.Fins</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile5</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -34,9 +34,17 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Expressions.csproj">
+      <Project>{8031bb8e-59d7-48ad-b615-b3211ea80f29}</Project>
+      <Name>Omron.Commands.Expressions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omron.Commands\Omron.Commands.csproj">
       <Project>{d6e4f767-967b-4d00-8ef4-3c501649c9eb}</Project>
       <Name>Omron.Commands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Omron.Fins.Command.Builder\Omron.Commands.Generators.Fins.csproj">
+      <Project>{dc80c5c7-af39-4b74-951c-9f07a9d8c7bb}</Project>
+      <Name>Omron.Commands.Generators.Fins</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
       <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>

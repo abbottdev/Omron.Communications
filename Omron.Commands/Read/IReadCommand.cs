@@ -9,6 +9,7 @@ namespace Omron.Commands
 {
     public interface IReadCommand : ICommand
     {
-
+        int NumberOfItems { get; set;  }
+        string Area { get; set; }
     }
 }

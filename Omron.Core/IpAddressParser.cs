@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Omron.Commands.Builder.Fins
+namespace Omron.Core
 {
-    internal class IpAddressParser
+    public sealed class IpAddressParser
     {
         //Required because we aren't targeting all .Net platforms, System.Net is only in standard windows, as TcpIp has different 
         //Implementations per platform.
@@ -26,7 +26,7 @@ namespace Omron.Commands.Builder.Fins
             {
                 throw new NotSupportedException("Only IPV4 Addresses are supported at this time.");
             }
-            
+
         }
 
     }

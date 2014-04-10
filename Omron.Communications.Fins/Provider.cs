@@ -1,7 +1,7 @@
 ﻿using Ninject;
 using Omron.Commands;
-using Omron.Commands.Builder.Expressions;
-using Omron.Commands.Builder.Generators;
+using Omron.Commands.Expressions;
+using Omron.Commands.Generators; 
 using Omron.Communications.Windows.Tcp;
 using Omron.Core;
 using Omron.Responses;
@@ -29,21 +29,20 @@ namespace Omron.Communications.Windows
         /// <param name="provider"></param>
         /// <param name="device"></param>
         /// <returns></returns>
-        private Frames.Frame BuildFrameForExpression<TExpression, TCommand>(TExpression builder, ICommuncationProvider provider, PlcConfiguration device)
-            where TExpression : ICommandExpression<TCommand>
+        private Frames.Frame BuildFrameForCommand<TCommand>(TCommand command, ICommuncationProvider provider, PlcConfiguration device)
             where TCommand : ICommand
         {
             Frames.Frame frameToSend;
-            ICommandGenerator<TExpression, TCommand> generator;
+            IFrameGeneratorOf<TCommand> generator;
 
             //Ensure that TExpression is registered/bound via ioc to a relevant generator.
-            generator = this.Kernel.Get<ICommandGenerator<TExpression, TCommand>>();
+            generator = this.Kernel.Get<IFrameGeneratorOf<TCommand>>();
 
             if (generator == null)
-                throw new ArgumentNullException("Failed to locate a generator for expression type {0}", typeof(TExpression).Name);
+                throw new ArgumentNullException("Failed to locate a generator for expression type {0}", typeof(TCommand).Name);
 
             //Build the frame.
-            frameToSend = generator.Generate(builder, device, provider.ProviderType);
+            frameToSend = generator.Generate(command, device, provider.ProviderType);
 
             return frameToSend;
         }
@@ -101,7 +100,7 @@ namespace Omron.Communications.Windows
              IResponseForReadCommand response;
 
             //Ensure that TExpression is registered/bound via ioc to a relevant generator.
-            frameToSend = BuildFrameForExpression<IReadCommandExpression, IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength), Provider, Configuration);
+            frameToSend = BuildFrameForCommand<IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength).GetCommand(), Provider, Configuration);
 
             //Send the frame.
             await DispatchFrameAsync(frameToSend, Provider, Configuration);
@@ -111,7 +110,7 @@ namespace Omron.Communications.Windows
 
             //Parse the Fins Response Frame.  
             //Try parse the response out from the frame.
-            response = Parser.ParseResponse<IResponseForReadCommand, Commands.IReadCommand>(receivedFrame);
+            response = Parser.ParseResponse<IResponseForReadCommand, IReadCommand>(receivedFrame);
 
             if (response == null)
                 throw new ArgumentException("Response command was correct, but type was unexpected");
@@ -175,16 +174,15 @@ namespace Omron.Communications.Windows
             //Commands - Read Command
             kernel
                 .Bind<IReadCommandExpression>()
-                .To<Commands.Expressions.Fins.ReadCommandExpression>()
-                .When(request => kernel.Get<ICommuncationProvider>().GetType() == typeof(TcpCommunicationProvider));
+                .To<Commands.Expressions.ReadCommandExpression>();
 
             //Commands - Write Command
             //TODO:
 
             //Command Generators - ReadCommandExpression. Used to generate the command frame that's sent to the plc.
             kernel
-                .Bind<ICommandGenerator<IReadCommandExpression, IReadCommand>>()
-                .To<Omron.Commands.Expressions.Generators.Fins.ReadCommandGenerator>()
+                .Bind<IFrameGeneratorOf<IReadCommand>>()
+                .To<Omron.Commands.Expressions.Generators.Fins.ReadCommandFrameGenerator>()
                 .When(request => kernel.Get<ICommuncationProvider>().GetType() == typeof(TcpCommunicationProvider));
 
         }

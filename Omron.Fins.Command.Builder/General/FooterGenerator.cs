@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Omron.Commands.Expressions.Generators.Fins
+namespace Omron.Commands.Generators.Fins
 {
     public class FinsFooterGenerator
     {

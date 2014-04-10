@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Omron.Commands.Builder.Expressions
+namespace Omron.Commands.Expressions
 {
     public interface ICommandExpression<TCommand> where TCommand : ICommand
     {
+        TCommand GetCommand();
     }
 }

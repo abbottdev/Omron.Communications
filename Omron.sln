@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Commands.Builder.Fins", "Omron.Fins.Command.Builder\Omron.Commands.Builder.Fins.csproj", "{DC80C5C7-AF39-4B74-951C-9F07A9D8C7BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Commands.Generators.Fins", "Omron.Fins.Command.Builder\Omron.Commands.Generators.Fins.csproj", "{DC80C5C7-AF39-4B74-951C-9F07A9D8C7BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Core", "Omron.Core\Omron.Core.csproj", "{A63DC130-2189-483E-8989-96168609E2D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Commands.Builder", "Omron.Command.Builder\Omron.Commands.Builder.csproj", "{8031BB8E-59D7-48AD-B615-B3211EA80F29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Commands.Expressions", "Omron.Command.Builder\Omron.Commands.Expressions.csproj", "{8031BB8E-59D7-48AD-B615-B3211EA80F29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Commands.Frames.Fins", "Omron.Frames.Fins\Omron.Commands.Frames.Fins.csproj", "{ECA9E48D-D491-4B00-B695-DCB3E98C4813}"
 EndProject

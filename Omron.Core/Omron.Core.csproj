@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="CommunicationProviderTypes.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IpAddressParser.cs" />
     <Compile Include="MemoryAreaParser.cs" />
     <Compile Include="MemoryAreas.cs" />
     <Compile Include="PlcConfiguration.cs" />

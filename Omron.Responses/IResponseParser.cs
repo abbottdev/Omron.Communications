@@ -1,4 +1,4 @@
-﻿using Omron.Commands;
+﻿using Omron.Commands; 
 using Omron.Responses.Implementation;
 using System;
 using System.Collections.Generic;

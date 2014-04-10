@@ -1,5 +1,5 @@
 ﻿using Ninject;
-using Omron.Commands.Builder.Expressions;
+using Omron.Commands.Expressions;
 using Omron.Core;
 using Omron.Responses;
 using System;

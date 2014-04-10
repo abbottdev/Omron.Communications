@@ -34,9 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Builder.csproj">
+    <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Expressions.csproj">
       <Project>{8031bb8e-59d7-48ad-b615-b3211ea80f29}</Project>
-      <Name>Omron.Commands.Builder</Name>
+      <Name>Omron.Commands.Expressions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Commands\Omron.Commands.csproj">
       <Project>{d6e4f767-967b-4d00-8ef4-3c501649c9eb}</Project>

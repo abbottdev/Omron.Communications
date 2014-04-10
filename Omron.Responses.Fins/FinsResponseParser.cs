@@ -28,7 +28,15 @@ namespace Omron.Responses.Fins
         //    throw new NotImplementedException();
         //}
 
-        TResponse IResponseParser.ParseResponse<TResponse, TCommand>(Frames.Frame frame)
+        //TResponse IResponseParser.ParseResponse<TResponse>(Frames.Frame frame)
+        //{
+        //    return new Fins.ReadCommandResponse(frame) as TResponse;
+        //}
+
+
+        public TResponse ParseResponse<TResponse, TCommand>(Frames.Frame frame)
+            where TResponse : class, Implementation.IResponse
+            where TCommand : ICommand
         {
             return new Fins.ReadCommandResponse(frame) as TResponse;
         }

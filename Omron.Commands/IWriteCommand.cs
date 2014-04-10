@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Omron.Commands
 {
-    public interface IWriteCommand : ICommand
-    {
-        Task WriteAreaAsync(string area, byte[] content);
-    }
+    //public interface IWriteCommand : ICommand
+    //{ 
+    //}
 }
