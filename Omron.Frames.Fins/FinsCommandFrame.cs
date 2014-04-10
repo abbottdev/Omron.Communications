@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Omron.Commands.Frames.Fins
 {
-    
-    public partial class FinsCommandFrame : Frame, ICommandFrame
+
+    public partial class FinsCommandFrame : Frame
     {
         public const int BITS_PER_BYTE = 8;
 
@@ -51,7 +51,9 @@ namespace Omron.Commands.Frames.Fins
             MemoryAreaWrite_SubRequestCode = 02
         }
 
-        
+
+
+
         public enum FinsCommands
         {
             Unknown = 0,
@@ -108,8 +110,8 @@ namespace Omron.Commands.Frames.Fins
             }
         }
 
-
-        public FinsCommandFrame() : base(12 )
+        public FinsCommandFrame()
+            : base(12)
         {
             _canResize = true;
             this.Header = new FinsCommandHeader(this);
@@ -134,22 +136,7 @@ namespace Omron.Commands.Frames.Fins
             }
         }
 
-        byte[] ICommandFrame.Parameter
-        {
-            get
-            {
-                return this.Parameter;
-            }
-            set
-            {
-                this.Parameter = value;
-            }
-        }
 
-        public static void InsertTcpHeader()
-        {
 
-        }
-        
     }
 }

@@ -9,15 +9,33 @@ namespace Omron.Frames
     using System.Text;
     using Omron.Core;
 
-    public class Frame : IEnumerable<byte>, ICommandFrame
+
+    //public interface IFrame
+    //{
+    //    int Length { get; }
+
+    //    void ResetFrame(int frameLength);
+    //    void SetBit(int byteIndex, int bitIndex, bool value);
+    //    bool GetBit(int byteIndex, int bit);
+    //    void SetByteHex(int byteIndex, string hexValue);
+    //    byte GetByte(int byteIndex);
+    //    void SetBytes(int startIndex, byte[] value);
+    //    void SetByte(int byteIndex, byte value);
+    //    void Resize(int size);
+    //    byte[] GetRange(int startIndex, int endIndex);
+    //    void Insert(byte[] insert, int index);
+
+    //}
+
+    public class Frame : IEnumerable<byte>//, IFrame
     {
         int originalLength;
         int _currentLength;
 
-       // BitArray _bits;
+        // BitArray _bits;
         byte[] bytes;
 
-        protected int Length
+        public int Length
         {
             get
             {
@@ -34,7 +52,7 @@ namespace Omron.Frames
 
         public Frame(byte[] buffer)
         {
-            originalLength = buffer.Length; 
+            originalLength = buffer.Length;
             _currentLength = buffer.Length;
             this.bytes = buffer;
         }
@@ -55,7 +73,7 @@ namespace Omron.Frames
         protected void SetBit(int byteIndex, int bitIndex, bool value)
         {
             //byte newValue = Get(fieldIndex);
-            var bits = new BitArray(new byte[] {bytes[byteIndex]});
+            var bits = new BitArray(new byte[] { bytes[byteIndex] });
 
             bits.Set(bitIndex, value);
 
@@ -78,7 +96,7 @@ namespace Omron.Frames
                 throw new ArgumentException("Invalid hex value. It must be in the 2 character padded format, e.g. A3");
             }
             //Max length of hex value must be 2 chars as 2 hex (FF) = 255 max value of byte.
-           
+
             value = Convert.ToByte(hexValue, 16);
 
             SetByte(byteIndex, value);
@@ -94,7 +112,7 @@ namespace Omron.Frames
 
         public bool GetBit(int byteIndex, int bit)
         {
-            var bits = new BitArray(new byte[] {bytes[byteIndex]});
+            var bits = new BitArray(new byte[] { bytes[byteIndex] });
 
             return bits.Get(bit);
         }
@@ -138,6 +156,26 @@ namespace Omron.Frames
             return result;
         }
 
+        public void Insert(byte[] insert, int index)
+        {
+            int originalLength = bytes.Length;
+
+            if (insert == null)
+                return;
+
+            Array.Resize<byte>(ref bytes, bytes.Length + insert.Length);
+
+            //Move all items in the array from start index back
+            for (int i = bytes.Length - 1; i > insert.Length; i--)
+            {
+                bytes[i] = bytes[originalLength - (bytes.Length - i) - 1];
+                bytes[originalLength + (bytes.Length - i) - 1] = default(byte);
+            }
+
+            //Now copy the items into the array
+            insert.CopyTo(bytes, index);
+
+        }
 
         IEnumerator<byte> IEnumerable<byte>.GetEnumerator()
         {
@@ -149,7 +187,26 @@ namespace Omron.Frames
             return bytes.GetEnumerator();//.AsEnumerable<byte>().GetEnumerator();
         }
 
-        public virtual byte[] Parameter { get; set; }
+        public Frame(Frame[] others)
+        {
+            int totalLength = 0;
+            int offset = 0;
+
+            totalLength = others.Select(f => (f == null) ? 0 : f.Length).Sum();
+
+            bytes = new byte[totalLength];
+
+            for (int i = 0; i < others.Length; i++)
+            {
+                if (others[i] != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Copying {0} at offset {1}, i: {2}, offset: {3}", others[i].BuildFrame().ToStringWithFormat(), offset, i, offset);
+                    others[i].BuildFrame().CopyTo(bytes, offset);
+                    offset += others[i].Length;
+                }
+            }
+
+        }
 
         public byte[] BuildFrame()
         {
@@ -158,7 +215,7 @@ namespace Omron.Frames
 
         public override string ToString()
         {
-            return bytes.ToStringWithFormat(); 
+            return bytes.ToStringWithFormat();
         }
     }
 }

@@ -67,5 +67,11 @@ namespace Omron.Communications.Windows.SerialPort
                 return false;
             }
         }
+
+
+        public CommunicationProviderTypes ProviderType
+        {
+            get { return CommunicationProviderTypes.Serial; }
+        }
     }
 }

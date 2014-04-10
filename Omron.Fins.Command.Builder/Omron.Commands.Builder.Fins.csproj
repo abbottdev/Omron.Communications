@@ -37,6 +37,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder.cs" />
+    <Compile Include="Generators\FooterGenerator.cs" />
+    <Compile Include="Generators\HeaderGenerator.cs" />
     <Compile Include="Generators\ReadCommandGenerator.cs" />
     <Compile Include="IpAddressParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

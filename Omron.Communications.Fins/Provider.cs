@@ -43,7 +43,7 @@ namespace Omron.Communications.Windows
                 throw new ArgumentNullException("Failed to locate a generator for expression type {0}", typeof(TExpression).Name);
 
             //Build the frame.
-            frameToSend = generator.Generate(builder, device);
+            frameToSend = generator.Generate(builder, device, provider.ProviderType);
 
             return frameToSend;
         }
@@ -82,6 +82,8 @@ namespace Omron.Communications.Windows
         {
 
             await EnsureConnectionAsync(provider, device);
+
+            
 
             //Send the frame to the device via the provider
             await provider.SendAsync(frame);

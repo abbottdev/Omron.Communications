@@ -7,7 +7,7 @@ using System.Text;
 namespace Omron.Commands.Frames.Fins
 {
 
-    public partial class FinsCommandFrame : Frame, ICommandFrame
+    public partial class FinsCommandFrame : Frame
     {
 
         public class FinsCommandHeader

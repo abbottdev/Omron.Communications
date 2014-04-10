@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Omron.Communications.Windows.Tcp
 {
     public class TcpCommunicationProvider : ICommuncationProvider
-    { 
+    {
         private System.Net.Sockets.TcpClient client;
 
         public async System.Threading.Tasks.Task<bool> ConnectAsync(PlcConfiguration device)
@@ -17,6 +17,9 @@ namespace Omron.Communications.Windows.Tcp
             client = new System.Net.Sockets.TcpClient();
 
             await client.ConnectAsync(device.Address, Convert.ToInt32(device.Port));
+
+            //46494E530000000C000000000000000000000000
+            //Need to send a fins command upon connection
 
             return client.Connected;
         }
@@ -30,8 +33,6 @@ namespace Omron.Communications.Windows.Tcp
         public async System.Threading.Tasks.Task SendAsync(Omron.Frames.Frame frame)
         {
             byte[] bytes = frame.BuildFrame();
-
-            //TODO: Do I need to generate a TCP Header here if we're using fins, should that be handled by the container?
 
             await client.GetStream().WriteAsync(bytes, 0, bytes.Length - 1);
         }
@@ -49,12 +50,13 @@ namespace Omron.Communications.Windows.Tcp
             {
                 bytes = null;
             }
-            return new Frames.Frame(bytes); 
+            return new Frames.Frame(bytes);
         }
 
         public bool Connected
         {
-            get {
+            get
+            {
 
                 if (client != null)
                 {
@@ -63,6 +65,12 @@ namespace Omron.Communications.Windows.Tcp
 
                 return false;
             }
+        }
+
+
+        public CommunicationProviderTypes ProviderType
+        {
+            get { return CommunicationProviderTypes.TcpId; }
         }
     }
 }

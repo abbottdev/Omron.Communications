@@ -16,9 +16,10 @@ namespace Omron.Commands.Expressions.Generators.Fins
 {
     public class ReadCommandGenerator : ICommandGenerator<IReadCommandExpression, IReadCommand>
     {
-     
-        public Frame Generate(IReadCommandExpression expression, PlcConfiguration configuration)
-        { 
+
+        public Frame Generate(IReadCommandExpression expression, PlcConfiguration configuration, CommunicationProviderTypes providerType)
+        {
+
             MemoryAreaParser addressParser = null;
             FinsReadCommandParameter parameter;
             Omron.Commands.Frames.Fins.FinsCommandFrame commandFrame;
@@ -26,7 +27,7 @@ namespace Omron.Commands.Expressions.Generators.Fins
 
             //Variable initialization.
             commandFrame = new Omron.Commands.Frames.Fins.FinsCommandFrame();
-          
+
             addressParser = Core.MemoryAreaParser.Parse(configuration.PlcMemoryMode, expression.Area, true, false);
 
 
@@ -39,8 +40,19 @@ namespace Omron.Commands.Expressions.Generators.Fins
 
             parameter = new FinsReadCommandParameter(addressParser.MemoryAreaCode, addressParser.MemoryAddress, addressParser.Bit, expression.NumberOfItems);
 
-
             commandFrame.Parameter = parameter.GetBytes();
+
+
+            //Append the header frame (Tcp or Udp, or Hostlink)
+            var headerFrame = FinsHeaderGenerator.BuildFrameHeader(providerType, commandFrame);
+
+           
+            //Append the footer frame (Tcp or Udp, or Hostlink)
+            var footerFrame = FinsFooterGenerator.BuildFrameFooter(providerType, commandFrame);
+            
+            var result = new Frame(new Frame[] { headerFrame, commandFrame as Frame, footerFrame});
+
+            return result;
 
             //memoryAddressBytes = IntegerToByteArray(addressParser.MemoryAddress, 4, 2);
 
@@ -80,7 +92,6 @@ namespace Omron.Commands.Expressions.Generators.Fins
             //commandFrame.Parameter = parameter;
 
             //command.AreaAddress
-            return commandFrame;
         }
 
         private static int CalculateParameterLength(IReadCommandExpression expression)
