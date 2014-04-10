@@ -46,15 +46,15 @@ namespace Omron.Core
         }
 
 
-        private string OriginalAddress { get; private set; }
+        private string OriginalAddress { get; set; }
 
-        private PlcMemoryModes Mode { get; private set; }
+        private PlcMemoryModes Mode { get; set; }
 
-        private bool UseHexadecimalAddressing { get; private set; }
+        private bool UseHexadecimalAddressing { get; set; }
 
-        private bool WriteAccess { get; private set; }
+        private bool WriteAccess { get; set; }
 
-        public int MemoryAddress { get; private set; }
+        public int MemoryAddress { get; set; }
 
 
         public static MemoryAreaParser Parse(PlcMemoryModes mode, string address, bool writeAccess, bool useHexadecimalAddressing = false)
@@ -120,17 +120,17 @@ namespace Omron.Core
 
             if (match.Success)
             {
-                if (match.Groups.Count > 1)
+                if (match.Groups.Count > 2 && !string.IsNullOrEmpty(match.Groups[2].Value))
                 {
                     //The memory address specifies as a bit, because we're addressing 4000.00 // .00 can only be made of bits 
-                    memoryAddress = Convert.ToInt32(match.Groups[0].Value, (useHex) ? 10 : 16);
-                    bit = Convert.ToByte(match.Groups[1].Value, (useHex) ? 10 : 16);
-                    Contract.Assert(isValueArray = false || isValueArray && bit == 0, "If writing an array of values, the starting bit must be bit in the address must be zero.");
+                    memoryAddress = Convert.ToInt32(match.Groups[1].Value, (useHex) ? 16 : 10);
+                    bit = Convert.ToByte(match.Groups[2].Value, (useHex) ? 10 : 16);
+                    Contract.Assert(isValueArray == false || isValueArray && bit == 0, "If writing an array of values, the starting bit must be bit in the address must be zero.");
                     //Contract.Assert(valueType.Equals(typeof(bool)), "When using bit style addressing (e.g. 1234.01) the value being written must be a boolean value");
                 }
                 else
                 {
-                    memoryAddress = Convert.ToInt32(match.Groups[0].Value, (useHex) ? 10 : 16);
+                    memoryAddress = Convert.ToInt32(match.Groups[1].Value, (useHex) ? 16 : 10);
                     bit = 0;
                 }
             }
@@ -151,11 +151,11 @@ namespace Omron.Core
             // if (area.)
             Match match = CaptureRegex.Match(area);
 
-            if (match != null && match.Groups.Count > 0)
+            if (match != null && match.Success && match.Groups.Count > 1)
             {
-                if (!string.IsNullOrEmpty(match.Groups[0].Value))
+                if (!string.IsNullOrEmpty(match.Groups[1].Value))
                 {
-                    switch (match.Groups[0].Value.ToLowerInvariant())
+                    switch (match.Groups[1].Value.ToLowerInvariant())
                     {
                         case "cio":
                             return MemoryAreas.CIO;
@@ -304,7 +304,7 @@ namespace Omron.Core
 
         public static VariableTypes GetVariableType(int memoryAddress, int? bit)
         {
-            if (bit.HasValue)
+            if (bit.HasValue && bit.Value > 0)
             {
                 return VariableTypes.Bit;
             }

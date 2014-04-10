@@ -118,8 +118,8 @@ namespace Omron.Commands.Frames.Fins
         private void SetParameterDataField(byte[] field)
         {
             Contract.Assert(_canResize, "Unable to set parameter data as this frame was initialised with a parameter already");
-            base.Resize((int)FinsCommandFields.SRC + 1 + field.Length - 1);
-            base.SetBytes((int)FinsCommandFields.SRC, field);
+            base.Resize((int)FinsCommandFields.SRC + 1 + field.Length);
+            base.SetBytes((int)FinsCommandFields.SRC + 1, field);
         }
 
         public byte[] Parameter
@@ -146,6 +146,10 @@ namespace Omron.Commands.Frames.Fins
             }
         }
 
+        public static void InsertTcpHeader()
+        {
+
+        }
         
     }
 }

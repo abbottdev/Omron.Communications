@@ -7,6 +7,7 @@ namespace Omron.Frames
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Omron.Core;
 
     public class Frame : IEnumerable<byte>, ICommandFrame
     {
@@ -129,9 +130,9 @@ namespace Omron.Frames
             //            .Take(endIndex - startIndex)
             //            .ToArray();
 
-            for (var i = 0; i <= endIndex - startIndex; i++)
+            for (var i = startIndex; i < endIndex; i++)
             {
-                result[i] = bytes[startIndex + i];
+                result[i - startIndex] = bytes[i];
             }
 
             return result;
@@ -157,32 +158,7 @@ namespace Omron.Frames
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-
-            var bits = new BitArray(bytes);
-            //var bytes = _bits.ToByteArray();
-
-            sb.Append(String.Format("Bit count: {0}, byte count: {1}", bits.Length, bytes.Length));
-            sb.AppendLine().Append("Byte Frame: ");
-
-            for (int i = 0; i < bytes.Length; i++)
-            {
-                if (i > 0)
-                    sb.Append(" ");
-
-                sb.Append(bytes[i].ToString("X2"));
-            }
-
-            //sb.AppendLine();
-
-            sb.AppendLine().Append(" Bits: ");
-            for (int i = 0; i < bits.Length; i++)
-            {
-                sb.Append((bits.Get(i)) ? "1" : "0");
-            }
-
-            return sb.ToString();
-            //return base.ToString();
+            return bytes.ToStringWithFormat(); 
         }
     }
 }

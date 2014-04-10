@@ -18,9 +18,9 @@ namespace Omron.Commands.Builder.Fins
 
             matches = IPAddressPattern.Matches(ipAddress);
 
-            if (matches.Count == 4)
+            if (matches.Count > 3)
             {
-                return byte.Parse(matches[3].Groups[0].Value);
+                return byte.Parse(matches[3].Groups[1].Value);
             }
             else
             {

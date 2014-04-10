@@ -70,6 +70,10 @@
       <Project>{ed80e36f-2888-4463-894f-0b2a8ede46a7}</Project>
       <Name>Omron.Communications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Omron.Core\Omron.Core.csproj">
+      <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>
+      <Name>Omron.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omron.Frames.Fins\Omron.Commands.Frames.Fins.csproj">
       <Project>{eca9e48d-d491-4b00-b695-dcb3e98c4813}</Project>
       <Name>Omron.Commands.Frames.Fins</Name>

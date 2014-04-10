@@ -11,7 +11,7 @@
     <RootNamespace>Omron.Commands.Frames.Fins</RootNamespace>
     <AssemblyName>Omron.Commands.Frames.Fins</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile136</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile5</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -37,10 +37,15 @@
   <ItemGroup>
     <Compile Include="FinsCommandFrame.cs" />
     <Compile Include="FinsCommandFrame.Header.cs" />
+    <Compile Include="Read\FinsReadCommandParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceIdPool.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omron.Core\Omron.Core.csproj">
+      <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>
+      <Name>Omron.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
       <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>
       <Name>Omron.Frames</Name>

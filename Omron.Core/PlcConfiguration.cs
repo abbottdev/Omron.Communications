@@ -15,7 +15,7 @@ namespace Omron.Core
 
         public IDictionary<string, string> Options { get; private set; }
 
-        public Core.MemoryArea.PlcMemoryModes PlcMemoryMode { get; set; }
+        public Omron.Core.MemoryAreaParser.PlcMemoryModes PlcMemoryMode { get; set; }
 
         public PlcConfiguration()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Omron.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +20,7 @@ namespace Omron.Communications.WindowsApp
         private async void Form1_Load(object sender, EventArgs e)
         {
             Omron.Communications.Windows.Provider provider;
-            Omron.Communications.PlcConfiguration configuration;
+            PlcConfiguration configuration;
 
             configuration = new PlcConfiguration()
             {
@@ -30,7 +31,7 @@ namespace Omron.Communications.WindowsApp
 
             provider = new Windows.Provider(configuration);
 
-            var result = await provider.ReadAreaAsync("4000.01", 1);
+            var result = await provider.ReadAreaAsync("D0001", 3);
 
 
 

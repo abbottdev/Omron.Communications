@@ -1,8 +1,9 @@
 ﻿using Ninject;
 using Omron.Commands;
 using Omron.Commands.Builder.Expressions;
-using Omron.Commands.Builder.Generators; 
+using Omron.Commands.Builder.Generators;
 using Omron.Communications.Windows.Tcp;
+using Omron.Core;
 using Omron.Responses;
 using Omron.Responses.Implementation;
 using System;
@@ -42,7 +43,7 @@ namespace Omron.Communications.Windows
                 throw new ArgumentNullException("Failed to locate a generator for expression type {0}", typeof(TExpression).Name);
 
             //Build the frame.
-            frameToSend = generator.Generate(builder);
+            frameToSend = generator.Generate(builder, device);
 
             return frameToSend;
         }
@@ -98,7 +99,7 @@ namespace Omron.Communications.Windows
              IResponseForReadCommand response;
 
             //Ensure that TExpression is registered/bound via ioc to a relevant generator.
-            frameToSend = BuildFrameForExpression<IReadCommandExpression, IReadCommand>(ReadAreaCommandBuilder.ForArea(area), Provider, Configuration);
+            frameToSend = BuildFrameForExpression<IReadCommandExpression, IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength), Provider, Configuration);
 
             //Send the frame.
             await DispatchFrameAsync(frameToSend, Provider, Configuration);

@@ -1,4 +1,5 @@
-﻿using Omron.Frames;
+﻿using Omron.Core;
+using Omron.Frames;
 using System;
 using System.Collections.Generic;
 using System.Linq;

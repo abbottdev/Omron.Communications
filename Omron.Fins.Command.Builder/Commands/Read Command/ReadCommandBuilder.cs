@@ -10,16 +10,28 @@ namespace Omron.Commands.Expressions.Fins
     public sealed class ReadCommandExpression : Omron.Commands.Builder.Expressions.IReadCommandExpression
     {
         internal string AreaAddress { get; set; }
+        internal int NumberOfReads { get; set; }
         
-        IReadCommandExpression IReadCommandExpression.ForArea(string areaAddress)
+        public string Area
+        {
+            get { return this.AreaAddress; }
+        }
+
+        public IReadCommandExpression ForArea(string areaAddress)
         {
             this.AreaAddress = areaAddress;
             return this;
         }
 
-        public string Area
+        public IReadCommandExpression WithNumberOfItems(int numberOfReads)
         {
-            get { return this.AreaAddress; }
+            this.NumberOfReads = numberOfReads;
+            return this;
+        }
+
+        public int NumberOfItems
+        {
+            get { return NumberOfReads; }
         }
     } 
 

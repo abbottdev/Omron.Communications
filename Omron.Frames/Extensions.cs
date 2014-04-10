@@ -6,8 +6,11 @@ using System.Text;
 
 namespace Omron.Frames
 {
-    public static class ByteBitwiseExtensions
+
+    public static class Extensions
     {
+        
+
         public static bool HasBit(this byte value, int bit)
         {
             return ((int)value & bit) == bit;
