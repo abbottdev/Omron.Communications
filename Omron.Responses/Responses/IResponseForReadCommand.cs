@@ -10,7 +10,8 @@ namespace Omron.Responses
 {
     public interface IResponseForReadCommand : IResponse<IReadCommand>
     {
-        string Response { get; }
+
+        object Response { get; }
     }
 
 }

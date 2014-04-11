@@ -7,20 +7,28 @@ using System.Text;
 namespace Omron.Responses.Fins
 {
     public class ReadCommandResponse : Responses.IResponseForReadCommand
-    {
-        private Frame frame;
+    { 
+        private Commands.IReadCommand original;
+        private object response;
 
-        public ReadCommandResponse(Frame frame)
+
+        public Commands.IReadCommand OriginalCommand { get; set; }
+
+        public void Parse(Frame commandFrame, Frame responseFrame)
         {
-            this.frame = frame;
+            byte[] bytes = commandFrame.GetRange(commandFrame.Length, responseFrame.Length - commandFrame.Length);
+
+            //Bytes will be the bit or words returned.
+
+            string value = Convert.ToString(bytes);
+
+            response = Convert.ToInt32(value);
+
         }
-        public string Response
+
+        object IResponseForReadCommand.Response
         {
-            get
-            {
-                return Encoding.UTF8.GetString(frame.GetRange(5, 10), 0, 5);
-            }
+            get { return response; }
         }
-         
     }
 }

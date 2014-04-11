@@ -34,7 +34,7 @@ namespace Omron.Transport
             this.Parser = kernel.Get<IResponseParser>();
             this.ReadAreaCommandBuilder = kernel.Get<IReadCommandExpression>();
         }
-        
+
         /// <summary>
         /// Asynchronously reads from a memory area 
         /// </summary>
@@ -45,12 +45,15 @@ namespace Omron.Transport
         {
             Core.Frames.Frame receivedFrame, frameToSend;
             IResponseForReadCommand response;
+            IReadCommand command;
 
             //Validate the connection to the host
             VerifyConnection();
 
+            command = ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength).GetCommand();
+
             //Ensure that TExpression is registered/bound via ioc to a relevant generator.
-            frameToSend = BuildFrameForCommand<IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength).GetCommand(), Transport, Configuration);
+            frameToSend = BuildFrameForCommand<IReadCommand>(command, Transport, Configuration);
 
             //Send the frame to the device via the provider
             await Transport.SendAsync(frameToSend);
@@ -60,12 +63,12 @@ namespace Omron.Transport
 
             //Parse the Fins Response Frame.  
             //Try parse the response out from the frame.
-            response = Parser.ParseResponse<IResponseForReadCommand, IReadCommand>(receivedFrame);
-             
+            response = Parser.ParseResponse<IResponseForReadCommand, IReadCommand>(receivedFrame, frameToSend, command);
+
             if (response == null)
                 throw new ArgumentException("Response command was correct, but type was unexpected");
 
-            return response.Response;
+            return response.Response.ToString();
         }
 
         protected async Task WriteAreaAsync(string area, byte[] dataToWrite)

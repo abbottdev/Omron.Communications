@@ -22,9 +22,23 @@ namespace Omron.Responses.Fins
             this.frame = frame;
         }
 
-        public int SourceUnitAddress
+        public int SourceUnitAddress { get; private set; }
+
+        public IConnectionCommand OriginalCommand { get; set; }
+
+        public void Parse(Frame responseFrame)
         {
-            get { return frame.GetByte(38); }
+            //Don't need to do anything here really.
+        }
+
+        public object Response
+        {
+            get { return null; }
+        }
+
+        public void Parse(Frame commandFrame, Frame responseFrame)
+        {
+            this.SourceUnitAddress = responseFrame.GetByte(38);
         }
     }
 }

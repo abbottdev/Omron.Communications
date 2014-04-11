@@ -46,6 +46,7 @@ namespace Omron.Transport
                 .When(request => configuration.Serial == true)
                 .InThreadScope();
 
+            
 
             BindTypesForTcpCommunication(configuration, base.Kernel);
 
@@ -80,6 +81,10 @@ namespace Omron.Transport
             kernel
                 .Bind<IReadCommandExpression>()
                 .To<Commands.Expressions.ReadCommandExpression>();
+
+            kernel
+               .Bind<IResponseForReadCommand>()
+               .To<Responses.Fins.ReadCommandResponse>();
 
             //Commands - Write Command
             //TODO:

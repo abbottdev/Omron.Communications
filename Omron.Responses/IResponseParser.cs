@@ -10,10 +10,10 @@ namespace Omron.Responses
 {
     public interface IResponseParser
     {
-        
-        TResponse ParseResponse<TResponse, TCommand>(Frame frame)
-            where TCommand : ICommand
-            where TResponse : class, IResponse;
+
+        TResponse ParseResponse<TResponse, TCommand>(Frame receivedFame, Frame commandFrame, TCommand command)
+            where TResponse : IResponse<TCommand>
+            where TCommand : ICommand;
 
     }
 }
