@@ -96,10 +96,6 @@
       <Project>{dc80c5c7-af39-4b74-951c-9f07a9d8c7bb}</Project>
       <Name>Omron.Commands.Generators.Fins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
-      <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>
-      <Name>Omron.Frames</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Omron.Responses.Fins\Omron.Responses.Fins.csproj">
       <Project>{bad0d6dd-b840-42fb-b209-e717521d15af}</Project>
       <Name>Omron.Responses.Fins</Name>

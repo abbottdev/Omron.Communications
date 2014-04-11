@@ -96,6 +96,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Omron.Commands\Omron.Commands.csproj">
+      <Project>{d6e4f767-967b-4d00-8ef4-3c501649c9eb}</Project>
+      <Name>Omron.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omron.Communications.Fins\Omron.Communications.Windows.csproj">
       <Project>{60a03735-8822-4248-9083-6a05e0b8e4b9}</Project>
       <Name>Omron.Communications.Windows</Name>

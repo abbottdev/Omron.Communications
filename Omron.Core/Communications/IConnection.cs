@@ -1,22 +1,21 @@
 ﻿using Omron.Core;
-using Omron.Frames;
+using Omron.Core.Frames;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Omron.Communications
+namespace Omron.Core
 {
-    public interface ICommuncationProvider
+    public interface IConnection
     {
-
         Task<bool> ConnectAsync(PlcConfiguration device);
         void Disconnect();
         Task SendAsync(Frame frame); 
         Task<Frame> ReceiveAsync();
 
-        CommunicationProviderTypes ProviderType { get; }
+        ProtocolTypes ProtocolType { get; }
 
         bool Connected { get; }
     }

@@ -9,25 +9,25 @@ namespace Omron.Commands.Generators.Fins
     public class FinsFooterGenerator
     {
 
-        public static Omron.Frames.Frame BuildFrameFooter(CommunicationProviderTypes providerType, Omron.Frames.Frame frame)
+        public static Omron.Core.Frames.Frame BuildFrameFooter(IConnection provider, Omron.Core.Frames.Frame frame)
         {
-            switch (providerType)
+            switch (provider.ProtocolType)
             {
-                case CommunicationProviderTypes.TcpId:
+                case ProtocolTypes.FinsTcpIp:
                     return BuildTcpIpFinsFooter(frame);
-                case CommunicationProviderTypes.Serial:
+                case ProtocolTypes.FinsHostLink:
                     return BuildHostLinkFinsFooter(frame);
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        private static Omron.Frames.Frame BuildHostLinkFinsFooter(Omron.Frames.Frame frame)
+        private static Omron.Core.Frames.Frame BuildHostLinkFinsFooter(Omron.Core.Frames.Frame frame)
         {
             throw new NotImplementedException();
         }
 
-        private static Omron.Frames.Frame BuildTcpIpFinsFooter(Omron.Frames.Frame frame)
+        private static Omron.Core.Frames.Frame BuildTcpIpFinsFooter(Omron.Core.Frames.Frame frame)
         {
             return null;
         }

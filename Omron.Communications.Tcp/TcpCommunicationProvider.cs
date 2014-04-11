@@ -1,26 +1,27 @@
-﻿using Omron.Core;
+﻿using Ninject;
+using Omron.Core;
+using Omron.Core.Frames;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject.Modules;
+
 
 namespace Omron.Communications.Windows.Tcp
 {
-    public class TcpCommunicationProvider : ICommuncationProvider
+    public class TcpCommunicationProvider : IConnection
     {
         private System.Net.Sockets.TcpClient client;
-
+        
         public async System.Threading.Tasks.Task<bool> ConnectAsync(PlcConfiguration device)
         {
             client = new System.Net.Sockets.TcpClient();
 
             await client.ConnectAsync(device.Address, Convert.ToInt32(device.Port));
-
-            //46494E530000000C000000000000000000000000
-            //Need to send a fins command upon connection
-
+            
             return client.Connected;
         }
 
@@ -30,14 +31,14 @@ namespace Omron.Communications.Windows.Tcp
                 client.Close();
         }
 
-        public async System.Threading.Tasks.Task SendAsync(Omron.Frames.Frame frame)
+        public async System.Threading.Tasks.Task SendAsync(Omron.Core.Frames.Frame frame)
         {
             byte[] bytes = frame.BuildFrame();
 
             await client.GetStream().WriteAsync(bytes, 0, bytes.Length - 1);
         }
 
-        public async System.Threading.Tasks.Task<Omron.Frames.Frame> ReceiveAsync()
+        public async System.Threading.Tasks.Task<Frame> ReceiveAsync()
         {
             byte[] bytes;
 
@@ -50,7 +51,7 @@ namespace Omron.Communications.Windows.Tcp
             {
                 bytes = null;
             }
-            return new Frames.Frame(bytes);
+            return new Frame(bytes);
         }
 
         public bool Connected
@@ -68,9 +69,9 @@ namespace Omron.Communications.Windows.Tcp
         }
 
 
-        public CommunicationProviderTypes ProviderType
+        public ProtocolTypes ProtocolType
         {
-            get { return CommunicationProviderTypes.TcpId; }
+            get { return ProtocolTypes.FinsTcpIp; }
         }
     }
 }

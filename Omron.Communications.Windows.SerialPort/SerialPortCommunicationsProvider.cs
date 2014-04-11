@@ -1,4 +1,5 @@
 ﻿using Omron.Core;
+using Omron.Core.Frames;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Omron.Communications.Windows.SerialPort
 {
-    public class SerialPortCommunicationProvider : ICommuncationProvider
+    public class SerialPortCommunicationProvider : IConnection
     {
         private System.IO.Ports.SerialPort port;
 
@@ -31,7 +32,7 @@ namespace Omron.Communications.Windows.SerialPort
             port.Close();
         }
 
-        public async System.Threading.Tasks.Task SendAsync(Omron.Frames.Frame frame)
+        public async System.Threading.Tasks.Task SendAsync(Omron.Core.Frames.Frame frame)
         {
             byte[] bytes = frame.BuildFrame();
 
@@ -41,9 +42,9 @@ namespace Omron.Communications.Windows.SerialPort
             });
         }
 
-        public async System.Threading.Tasks.Task<Omron.Frames.Frame> ReceiveAsync()
+        public async System.Threading.Tasks.Task<Frame> ReceiveAsync()
         {
-            return await Task<Frames.Frame>.Factory.StartNew(() =>
+            return await Task<Frame>.Factory.StartNew(() =>
             {
                 byte[] bytes;
 
@@ -51,7 +52,7 @@ namespace Omron.Communications.Windows.SerialPort
 
                 port.Read(bytes, 0, port.BytesToRead - 1);
 
-                return new Frames.Frame(bytes);
+                return new Frame(bytes);
 
             });
         }
@@ -69,9 +70,9 @@ namespace Omron.Communications.Windows.SerialPort
         }
 
 
-        public CommunicationProviderTypes ProviderType
+        public ProtocolTypes ProtocolType
         {
-            get { return CommunicationProviderTypes.Serial; }
+            get { return ProtocolTypes.FinsHostLink; }
         }
     }
 }

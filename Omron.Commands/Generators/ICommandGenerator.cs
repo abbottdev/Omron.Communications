@@ -8,6 +8,6 @@ namespace Omron.Commands.Generators
 {
     public interface IFrameGeneratorOf<TCommand> where TCommand : ICommand
     {
-        Frames.Frame Generate(TCommand command, PlcConfiguration configuration, CommunicationProviderTypes providerType);
+        Core.Frames.Frame Generate(TCommand command, PlcConfiguration configuration, IConnection provider);
     }
 }

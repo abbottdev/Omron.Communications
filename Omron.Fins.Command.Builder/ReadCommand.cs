@@ -1,9 +1,7 @@
 ﻿using Omron.Commands.Expressions;
 using Omron.Commands.Generators;
-using Omron.Commands.Frames.Fins;
-using Omron.Communications;
-using Omron.Core;
-using Omron.Frames;
+using Omron.Commands.Frames.Fins; 
+using Omron.Core; 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Omron.Commands.Generators.Fins;
+using Omron.Core.Frames;
 
-namespace Omron.Commands.Expressions.Generators.Fins
+namespace Omron.Commands.Generators.Fins
 {
     public class ReadCommandFrameGenerator : IFrameGeneratorOf<IReadCommand>
     {
 
-        public Frame Generate(IReadCommand command, PlcConfiguration configuration, CommunicationProviderTypes providerType)
+        public Frame Generate(IReadCommand command, PlcConfiguration configuration, IConnection provider)
         {
 
             MemoryAreaParser addressParser = null;
@@ -42,10 +41,10 @@ namespace Omron.Commands.Expressions.Generators.Fins
             commandFrame.Parameter = parameter.GetBytes();
              
             //Append the header frame (Tcp or Udp, or Hostlink)
-            var headerFrame = FinsHeaderGenerator.BuildFrameHeader(providerType, commandFrame);
+            var headerFrame = FinsHeaderGenerator.BuildFrameHeader(provider, commandFrame);
 
             //Append the footer frame (Tcp or Udp, or Hostlink)
-            var footerFrame = FinsFooterGenerator.BuildFrameFooter(providerType, commandFrame);
+            var footerFrame = FinsFooterGenerator.BuildFrameFooter(provider, commandFrame);
             
             //Combine the content, header and footer frames together.
             var result = new Frame(new Frame[] { 
@@ -57,6 +56,7 @@ namespace Omron.Commands.Expressions.Generators.Fins
             return result;
 
         }
+
          
     }
 }

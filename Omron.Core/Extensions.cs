@@ -8,6 +8,50 @@ namespace Omron.Core
 {
     public static class Extensions
     {
+
+        public static byte[] ToByteArray(this BitArray bits)
+        {
+            int numBytes = bits.Length / 8;
+            if (bits.Length % 8 != 0) numBytes++;
+
+            byte[] bytes = new byte[numBytes];
+            int byteIndex = 0, bitIndex = 0;
+
+            for (int i = 0; i < bits.Length; i++)
+            {
+                if (bits[i])
+                    bytes[byteIndex] |= (byte)(1 << (7 - bitIndex));
+
+                bitIndex++;
+                if (bitIndex == 8)
+                {
+                    bitIndex = 0;
+                    byteIndex++;
+                }
+            }
+
+            return bytes;
+        }
+
+        public static byte[] HexadecimalSplitToBytes(this string header)
+        {
+            byte[] bytes;
+            int index = 0;
+
+            bytes = new byte[(header.Length / 2)];
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                var temp = header.Substring(index, 2);
+
+                bytes[i] = Convert.ToByte(temp, 16);
+
+                index += 2;
+            }
+
+            return bytes;
+        }
+
         public static string ToStringWithFormat(this byte[] bytes)
         {
 

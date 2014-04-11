@@ -13,7 +13,6 @@ namespace Omron.Responses.Implementation
 
     public interface IResponse
     {
-        //Non-Generic base interface to verify types received
-        Commands.CommandTypes CommandType { get; }
+       
     }
 }

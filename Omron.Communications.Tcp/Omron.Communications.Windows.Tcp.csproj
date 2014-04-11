@@ -78,10 +78,6 @@
       <Project>{eca9e48d-d491-4b00-b695-dcb3e98c4813}</Project>
       <Name>Omron.Commands.Frames.Fins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
-      <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>
-      <Name>Omron.Frames</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

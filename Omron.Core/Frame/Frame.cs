@@ -1,6 +1,6 @@
 ﻿
 
-namespace Omron.Frames
+namespace Omron.Core.Frames
 {
     using System;
     using System.Collections;

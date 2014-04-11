@@ -6,10 +6,10 @@ using System.Text;
 namespace Omron.Core
 {
 
-    public enum CommunicationProviderTypes
+    public enum ProtocolTypes
     {
-        TcpId,
-        Udp,
-        Serial
+        FinsTcpIp,
+        FinsUdp,
+        FinsHostLink
     }
 }

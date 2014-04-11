@@ -1,4 +1,5 @@
-﻿using Omron.Commands; 
+﻿using Omron.Commands;
+using Omron.Core.Frames;
 using Omron.Responses.Implementation;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,8 @@ namespace Omron.Responses
 {
     public interface IResponseParser
     {
-        Commands.CommandTypes ParseFrameType(Frames.Frame frame);
-
-        TResponse ParseResponse<TResponse, TCommand>(Omron.Frames.Frame frame)
+        
+        TResponse ParseResponse<TResponse, TCommand>(Frame frame)
             where TCommand : ICommand
             where TResponse : class, IResponse;
 

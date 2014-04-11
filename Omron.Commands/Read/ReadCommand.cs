@@ -10,10 +10,6 @@ namespace Omron.Commands
         public int NumberOfItems { get; set; }
 
         public string Area { get; set; }
-
-        public CommandTypes CommandType
-        {
-            get { return CommandTypes.Read; }
-        }
+         
     }
 }

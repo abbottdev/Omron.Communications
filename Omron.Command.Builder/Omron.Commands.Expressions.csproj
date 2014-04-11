@@ -41,10 +41,6 @@
       <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>
       <Name>Omron.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Frames\Omron.Frames.csproj">
-      <Project>{8480ecd7-a714-4369-bbf9-cb46308312aa}</Project>
-      <Name>Omron.Frames</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICommandExpression.cs" />

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text; 
-using Omron.Frames;
+using Omron.Core.Frames;
 using System.Threading.Tasks;
 
 namespace Omron.Commands

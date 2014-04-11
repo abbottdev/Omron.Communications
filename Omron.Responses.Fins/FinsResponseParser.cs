@@ -1,4 +1,5 @@
 ﻿using Omron.Commands;
+using Omron.Core.Frames;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,33 +9,8 @@ namespace Omron.Responses.Fins
 {
     public class FinsResponseParser : IResponseParser
     {
-
-        public Commands.CommandTypes ParseFrameType(Frames.Frame frame)
-        { //We know the frame is a Fins frame so we can parse it.
-            //  return new FinsResponseFrame(frame.BuildFrame()) as TFrame;
-            return Commands.CommandTypes.Read;
-        }
-
-
-
-        //public IResponseForReadCommand ParseResponse(Frames.Frame frame)
-        //{
-        //    return new Fins.ReadCommandResponse(frame);
-        //}
-
-
-        //IResponseForWriteCommand IResponseParser.ParseResponse(Frames.Frame frame)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //TResponse IResponseParser.ParseResponse<TResponse>(Frames.Frame frame)
-        //{
-        //    return new Fins.ReadCommandResponse(frame) as TResponse;
-        //}
-
-
-        public TResponse ParseResponse<TResponse, TCommand>(Frames.Frame frame)
+  
+        public TResponse ParseResponse<TResponse, TCommand>(Frame frame)
             where TResponse : class, Implementation.IResponse
             where TCommand : ICommand
         {
