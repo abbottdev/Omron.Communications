@@ -11,7 +11,7 @@ namespace Omron.Commands.Generators.Fins
     public class ConnectionFrameGenerator : IFrameGeneratorOf<IConnectionCommand>
     {
 
-        public Frame Generate(IConnectionCommand command, PlcConfiguration configuration, IConnection provider)
+        public Frame Generate(IConnectionCommand command, PlcConfiguration configuration, ITransport provider)
         {
             //fixed frame to obtain an API No. node (EF in principle)
             const string API_NO_NODE_FRAME = "46494E530000000C000000000000000000000000";

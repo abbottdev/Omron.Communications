@@ -9,7 +9,7 @@ namespace Omron.Commands.Generators.Fins
     public class FinsFooterGenerator
     {
 
-        public static Omron.Core.Frames.Frame BuildFrameFooter(IConnection provider, Omron.Core.Frames.Frame frame)
+        public static Omron.Core.Frames.Frame BuildFrameFooter(ITransport provider, Omron.Core.Frames.Frame frame)
         {
             switch (provider.ProtocolType)
             {

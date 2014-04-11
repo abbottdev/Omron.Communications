@@ -2,15 +2,18 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{60A03735-8822-4248-9083-6A05E0B8E4B9}</ProjectGuid>
+    <ProjectGuid>{ED80E36F-2888-4463-894F-0B2A8EDE46A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Omron.Communications.Windows</RootNamespace>
-    <AssemblyName>Omron.Communications.Windows</AssemblyName>
+    <RootNamespace>Omron.Transport</RootNamespace>
+    <AssemblyName>Omron.Transport</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile5</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,44 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.166\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.166\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.166\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Common">
-      <HintPath>..\packages\Portable.Ninject.3.2\lib\net40-client\Ninject.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject.Platform">
-      <HintPath>..\packages\Portable.Ninject.3.2\lib\net40-client\Ninject.Platform.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\net40\System.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net" />
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\net40\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\net40\System.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Provider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\Omron.Command.Builder\Omron.Commands.Expressions.csproj">
       <Project>{8031bb8e-59d7-48ad-b615-b3211ea80f29}</Project>
       <Name>Omron.Commands.Expressions</Name>
@@ -76,29 +42,9 @@
       <Project>{d6e4f767-967b-4d00-8ef4-3c501649c9eb}</Project>
       <Name>Omron.Commands</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Communications.Tcp\Omron.Communications.Windows.Tcp.csproj">
-      <Project>{38dfa4fb-fc06-43f5-8915-ee387ede9632}</Project>
-      <Name>Omron.Communications.Windows.Tcp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omron.Communications.Windows.SerialPort\Omron.Communications.Windows.SerialPort.csproj">
-      <Project>{63907897-98e0-4dd3-92c9-a606237e8359}</Project>
-      <Name>Omron.Communications.Windows.SerialPort</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omron.Communications\Omron.Communications.csproj">
-      <Project>{ed80e36f-2888-4463-894f-0b2a8ede46a7}</Project>
-      <Name>Omron.Communications</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Omron.Core\Omron.Core.csproj">
       <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>
       <Name>Omron.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omron.Fins.Command.Builder\Omron.Commands.Generators.Fins.csproj">
-      <Project>{dc80c5c7-af39-4b74-951c-9f07a9d8c7bb}</Project>
-      <Name>Omron.Commands.Generators.Fins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Omron.Responses.Fins\Omron.Responses.Fins.csproj">
-      <Project>{bad0d6dd-b840-42fb-b209-e717521d15af}</Project>
-      <Name>Omron.Responses.Fins</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Responses\Omron.Responses.csproj">
       <Project>{ef76cc3c-13ed-4686-8997-b0a90113e1bd}</Project>
@@ -106,10 +52,34 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProviderBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.166\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.166\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Common">
+      <HintPath>..\packages\Portable.Ninject.3.2\lib\portable-net4+sl5+wp8+win8\Ninject.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.7\lib\portable-net40+win8\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
     <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />

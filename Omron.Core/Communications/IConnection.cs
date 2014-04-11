@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Omron.Core
 {
-    public interface IConnection
+    public interface ITransport
     {
         Task<bool> ConnectAsync(PlcConfiguration device);
         void Disconnect();

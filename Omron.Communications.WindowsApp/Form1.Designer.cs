@@ -1,4 +1,4 @@
-﻿namespace Omron.Communications.WindowsApp
+﻿namespace Omron.WindowsApp
 {
     partial class Form1
     {

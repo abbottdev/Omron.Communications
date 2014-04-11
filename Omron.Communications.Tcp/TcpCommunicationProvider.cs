@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using Ninject.Modules;
 
 
-namespace Omron.Communications.Windows.Tcp
+namespace Omron.Transport.Windows.Tcp
 {
-    public class TcpCommunicationProvider : IConnection
+    public class TcpCommunicationProvider : ITransport
     {
         private System.Net.Sockets.TcpClient client;
         

@@ -11,14 +11,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Omron.Communications
+namespace Omron.Transport
 {
 
     public abstract class ProviderBase : IDisposable
     {
         protected IKernel Kernel { get; private set; }
         protected PlcConfiguration Configuration { get; private set; }
-        protected IConnection Provider { get; private set; }
+        protected ITransport Transport { get; private set; }
         protected IResponseParser Parser { get; private set; }
 
         protected IReadCommandExpression ReadAreaCommandBuilder { get; private set; }
@@ -30,7 +30,7 @@ namespace Omron.Communications
 
             this.RegisterAndBindTypes(configuration);
 
-            this.Provider = kernel.Get<IConnection>();
+            this.Transport = kernel.Get<ITransport>();
             this.Parser = kernel.Get<IResponseParser>();
             this.ReadAreaCommandBuilder = kernel.Get<IReadCommandExpression>();
         }
@@ -50,13 +50,13 @@ namespace Omron.Communications
             VerifyConnection();
 
             //Ensure that TExpression is registered/bound via ioc to a relevant generator.
-            frameToSend = BuildFrameForCommand<IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength).GetCommand(), Provider, Configuration);
+            frameToSend = BuildFrameForCommand<IReadCommand>(ReadAreaCommandBuilder.ForArea(area).WithNumberOfItems(readLength).GetCommand(), Transport, Configuration);
 
             //Send the frame to the device via the provider
-            await Provider.SendAsync(frameToSend);
+            await Transport.SendAsync(frameToSend);
 
             //Recieve the response.
-            receivedFrame = await Provider.ReceiveAsync();
+            receivedFrame = await Transport.ReceiveAsync();
 
             //Parse the Fins Response Frame.  
             //Try parse the response out from the frame.
@@ -84,7 +84,7 @@ namespace Omron.Communications
         /// <param name="provider"></param>
         /// <param name="device"></param>
         /// <returns></returns>
-        protected Frame BuildFrameForCommand<TCommand>(TCommand command, IConnection provider, PlcConfiguration device)
+        protected Frame BuildFrameForCommand<TCommand>(TCommand command, ITransport provider, PlcConfiguration device)
             where TCommand : ICommand
         {
             Frame frameToSend;
@@ -104,7 +104,7 @@ namespace Omron.Communications
 
         private void VerifyConnection()
         {
-            if (Provider == null || Provider.Connected == false)
+            if (Transport == null || Transport.Connected == false)
             {
                 throw new InvalidOperationException("You must connect to the device using the ConnectAsync method before calling any other operation");
             }
@@ -132,10 +132,10 @@ namespace Omron.Communications
 
         public void Dispose()
         {
-            if (Provider != null)
+            if (Transport != null)
             {
-                if (Provider.Connected)
-                    Provider.Disconnect();
+                if (Transport.Connected)
+                    Transport.Disconnect();
             }
         }
     }

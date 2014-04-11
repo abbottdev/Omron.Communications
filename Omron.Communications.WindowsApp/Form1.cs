@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Omron.Communications.WindowsApp
+namespace Omron.WindowsApp
 {
     public partial class Form1 : Form
     {
@@ -30,7 +30,7 @@ namespace Omron.Communications.WindowsApp
                 Serial = false
             };
 
-            provider = new Omron.Communications.Provider(configuration);
+            provider = new Omron.Transport.Provider(configuration);
             this.connectedLabel.Text = provider.Connected.ToString();
         }
 

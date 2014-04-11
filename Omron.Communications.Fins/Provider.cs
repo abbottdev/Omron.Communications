@@ -2,7 +2,7 @@
 using Omron.Commands;
 using Omron.Commands.Expressions;
 using Omron.Commands.Generators;
-using Omron.Communications.Windows.Tcp;
+using Omron.Transport.Windows.Tcp;
 using Omron.Core;
 using Omron.Responses;
 using Omron.Responses.Implementation;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Omron.Communications
+namespace Omron.Transport
 {
     /// <summary>
     /// Main class used to communicate with devices.
@@ -34,15 +34,15 @@ namespace Omron.Communications
         {
             //Communication Provider 
             Kernel
-                .Bind<IConnection>()
-                .To<Omron.Communications.Windows.Tcp.TcpCommunicationProvider>()
+                .Bind<ITransport>()
+                .To<Omron.Transport.Windows.Tcp.TcpCommunicationProvider>()
                 .When(request => configuration.Serial == false)
                 .InThreadScope();
 
             //Use Serial port provider if configuration is set to use it.
             Kernel
-                .Bind<IConnection>()
-                .To<Omron.Communications.Windows.SerialPort.SerialPortCommunicationProvider>()
+                .Bind<ITransport>()
+                .To<Omron.Transport.Windows.SerialPort.SerialPortCommunicationProvider>()
                 .When(request => configuration.Serial == true)
                 .InThreadScope();
 
@@ -74,7 +74,7 @@ namespace Omron.Communications
             kernel
               .Bind<IResponseParser>()
               .To<Responses.Fins.FinsResponseParser>()
-                .When(request => kernel.Get<IConnection>().ProtocolType == ProtocolTypes.FinsTcpIp);
+                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
 
             //Commands - Read Command
             kernel
@@ -88,12 +88,12 @@ namespace Omron.Communications
             kernel
                 .Bind<IFrameGeneratorOf<IReadCommand>>()
                 .To<Omron.Commands.Generators.Fins.ReadCommandFrameGenerator>()
-                .When(request => kernel.Get<IConnection>().ProtocolType == ProtocolTypes.FinsTcpIp);
+                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
 
             kernel
                 .Bind<IFrameGeneratorOf<IConnectionCommand>>()
                 .To<Omron.Commands.Generators.Fins.ConnectionFrameGenerator>()
-                .When(request => kernel.Get<IConnection>().ProtocolType == ProtocolTypes.FinsTcpIp);
+                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
         }
 
         /// <summary>
@@ -105,19 +105,19 @@ namespace Omron.Communications
             ConnectionCommand command;
             Core.Frames.Frame frame, receivedFrame;
 
-            if (!base.Provider.Connected)
+            if (!base.Transport.Connected)
             {
-                if (await base.Provider.ConnectAsync(base.Configuration))
+                if (await base.Transport.ConnectAsync(base.Configuration))
                 {
 
                     //Generate an initial connection command if one is required for this protocol/transport.
                     command = new ConnectionCommand();
 
-                    frame = Kernel.Get<IFrameGeneratorOf<IConnectionCommand>>().Generate(command, Configuration, Provider);
+                    frame = Kernel.Get<IFrameGeneratorOf<IConnectionCommand>>().Generate(command, Configuration, Transport);
 
-                    await Provider.SendAsync(frame);
+                    await Transport.SendAsync(frame);
 
-                    receivedFrame = await Provider.ReceiveAsync();
+                    receivedFrame = await Transport.ReceiveAsync();
 
                     //TODO: Does the received frame need any further parsing?
                     //For TcpIp/Fins I don't believe it's required as the SourceunitAddress (SA1) is auto allocated
@@ -136,8 +136,8 @@ namespace Omron.Communications
         /// </summary>
         public void Disconnect()
         {
-            if (Provider != null)
-                Provider.Disconnect();
+            if (Transport != null)
+                Transport.Disconnect();
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Omron.Communications
         {
             get
             {
-                return (Provider == null) ? false : Provider.Connected;
+                return (Transport == null) ? false : Transport.Connected;
             }
         }
     }

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Omron.Communications.Windows.SerialPort
+namespace Omron.Transport.Windows.SerialPort
 {
-    public class SerialPortCommunicationProvider : IConnection
+    public class SerialPortCommunicationProvider : ITransport
     {
         private System.IO.Ports.SerialPort port;
 

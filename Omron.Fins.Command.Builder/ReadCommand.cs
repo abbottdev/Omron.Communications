@@ -17,7 +17,7 @@ namespace Omron.Commands.Generators.Fins
     public class ReadCommandFrameGenerator : IFrameGeneratorOf<IReadCommand>
     {
 
-        public Frame Generate(IReadCommand command, PlcConfiguration configuration, IConnection provider)
+        public Frame Generate(IReadCommand command, PlcConfiguration configuration, ITransport provider)
         {
 
             MemoryAreaParser addressParser = null;

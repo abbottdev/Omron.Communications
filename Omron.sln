@@ -19,19 +19,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host-Link", "Host-Link", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protocols", "Protocols", "{5D9C9731-DAB9-433D-AF71-FC653898549E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectivity", "Connectivity", "{688A736B-CD9E-4D9C-8717-D1B68C03C54D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Transport", "Transport", "{688A736B-CD9E-4D9C-8717-D1B68C03C54D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commands", "Commands", "{97099AB9-BD59-4E9C-A1FB-0BD3B492C354}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7FD461D3-0233-4C78-869D-B66510C38D0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Communications", "Omron.Communications\Omron.Communications.csproj", "{ED80E36F-2888-4463-894F-0B2A8EDE46A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Transport", "Omron.Communications\Omron.Transport.csproj", "{ED80E36F-2888-4463-894F-0B2A8EDE46A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Communications.Windows.Tcp", "Omron.Communications.Tcp\Omron.Communications.Windows.Tcp.csproj", "{38DFA4FB-FC06-43F5-8915-EE387EDE9632}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Transport.Windows.Tcp", "Omron.Communications.Tcp\Omron.Transport.Windows.Tcp.csproj", "{38DFA4FB-FC06-43F5-8915-EE387EDE9632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Communications.Windows.SerialPort", "Omron.Communications.Windows.SerialPort\Omron.Communications.Windows.SerialPort.csproj", "{63907897-98E0-4DD3-92C9-A606237E8359}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Transport.Windows.SerialPort", "Omron.Communications.Windows.SerialPort\Omron.Transport.Windows.SerialPort.csproj", "{63907897-98E0-4DD3-92C9-A606237E8359}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Communications.Windows", "Omron.Communications.Fins\Omron.Communications.Windows.csproj", "{60A03735-8822-4248-9083-6A05E0B8E4B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Transport.Windows", "Omron.Communications.Fins\Omron.Transport.Windows.csproj", "{60A03735-8822-4248-9083-6A05E0B8E4B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Responses", "Responses", "{8C8FA3BB-269A-449B-8A4F-5509F5FD3676}"
 EndProject
@@ -39,7 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Responses", "Omron.Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Responses.Fins", "Omron.Responses.Fins\Omron.Responses.Fins.csproj", "{BAD0D6DD-B840-42FB-B209-E717521D15AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.Communications.WindowsApp", "Omron.Communications.WindowsApp\Omron.Communications.WindowsApp.csproj", "{C9C3BD7D-1FAD-4C12-8CCB-E98ACE210DE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omron.WindowsApp", "Omron.Communications.WindowsApp\Omron.WindowsApp.csproj", "{C9C3BD7D-1FAD-4C12-8CCB-E98ACE210DE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{5C3D7238-154D-4B67-9326-81EE8CA86E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,9 +110,11 @@ Global
 		{ECA9E48D-D491-4B00-B695-DCB3E98C4813} = {C27E3550-FB77-469D-BD05-B534D86B40F9}
 		{DC80C5C7-AF39-4B74-951C-9F07A9D8C7BB} = {C27E3550-FB77-469D-BD05-B534D86B40F9}
 		{ED80E36F-2888-4463-894F-0B2A8EDE46A7} = {688A736B-CD9E-4D9C-8717-D1B68C03C54D}
-		{38DFA4FB-FC06-43F5-8915-EE387EDE9632} = {688A736B-CD9E-4D9C-8717-D1B68C03C54D}
-		{63907897-98E0-4DD3-92C9-A606237E8359} = {688A736B-CD9E-4D9C-8717-D1B68C03C54D}
+		{5C3D7238-154D-4B67-9326-81EE8CA86E3C} = {688A736B-CD9E-4D9C-8717-D1B68C03C54D}
 		{EF76CC3C-13ED-4686-8997-B0A90113E1BD} = {8C8FA3BB-269A-449B-8A4F-5509F5FD3676}
 		{BAD0D6DD-B840-42FB-B209-E717521D15AF} = {8C8FA3BB-269A-449B-8A4F-5509F5FD3676}
+		{60A03735-8822-4248-9083-6A05E0B8E4B9} = {5C3D7238-154D-4B67-9326-81EE8CA86E3C}
+		{63907897-98E0-4DD3-92C9-A606237E8359} = {5C3D7238-154D-4B67-9326-81EE8CA86E3C}
+		{38DFA4FB-FC06-43F5-8915-EE387EDE9632} = {5C3D7238-154D-4B67-9326-81EE8CA86E3C}
 	EndGlobalSection
 EndGlobal

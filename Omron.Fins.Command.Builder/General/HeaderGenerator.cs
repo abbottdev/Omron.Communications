@@ -10,7 +10,7 @@ namespace Omron.Commands.Generators.Fins
     public sealed class FinsHeaderGenerator
     {
 
-        public  static Frame BuildFrameHeader(IConnection provider, Frame frame)
+        public  static Frame BuildFrameHeader(ITransport provider, Frame frame)
         {
             switch (provider.ProtocolType)
             {
