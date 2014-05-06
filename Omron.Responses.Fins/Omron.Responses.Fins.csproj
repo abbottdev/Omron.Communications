@@ -50,6 +50,10 @@
       <Project>{dc80c5c7-af39-4b74-951c-9f07a9d8c7bb}</Project>
       <Name>Omron.Commands.Generators.Fins</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Omron.Frames.Fins\Omron.Commands.Frames.Fins.csproj">
+      <Project>{eca9e48d-d491-4b00-b695-dcb3e98c4813}</Project>
+      <Name>Omron.Commands.Frames.Fins</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Omron.Responses\Omron.Responses.csproj">
       <Project>{ef76cc3c-13ed-4686-8997-b0a90113e1bd}</Project>
       <Name>Omron.Responses</Name>
@@ -61,6 +65,7 @@
     <Compile Include="FinsResponseParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadCommandResponse.cs" />
+    <Compile Include="ReadCycleTimeResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

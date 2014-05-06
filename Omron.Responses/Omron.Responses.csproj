@@ -48,7 +48,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EndCodeResponseParser.cs" />
     <Compile Include="IResponseParser.cs" />
+    <Compile Include="Responses\IResponseForCycleTimeCommand.cs" />
     <Compile Include="Responses\IResponseForReadCommand.cs" />
     <Compile Include="IResponse`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

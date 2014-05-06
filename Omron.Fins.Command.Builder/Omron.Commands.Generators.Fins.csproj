@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionGenerator.cs" />
+    <Compile Include="CycleTimeCommand.cs" />
     <Compile Include="General\FooterGenerator.cs" />
     <Compile Include="General\HeaderGenerator.cs" />
     <Compile Include="ReadCommand.cs" />

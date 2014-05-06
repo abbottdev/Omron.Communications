@@ -20,7 +20,6 @@ namespace Omron.Transport
         protected PlcConfiguration Configuration { get; private set; }
         protected ITransport Transport { get; private set; }
         protected IResponseParser Parser { get; private set; }
-
         protected IReadCommandExpression ReadAreaCommandBuilder { get; private set; }
 
         public ProviderBase(PlcConfiguration configuration, IKernel kernel)

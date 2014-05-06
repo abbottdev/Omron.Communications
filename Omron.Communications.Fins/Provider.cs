@@ -46,8 +46,6 @@ namespace Omron.Transport
                 .When(request => configuration.Serial == true)
                 .InThreadScope();
 
-            
-
             BindTypesForTcpCommunication(configuration, base.Kernel);
 
             BindTypesForSerialCommunication(configuration, base.Kernel);

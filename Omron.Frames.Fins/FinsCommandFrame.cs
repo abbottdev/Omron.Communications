@@ -36,21 +36,18 @@ namespace Omron.Commands.Frames.Fins
 
         public FinsCommandHeader Header { get; private set; }
 
-        public FinsCommandFrame(byte[] parameterDataField)
-            : base(12 + parameterDataField.Length)
+        public enum FinsMainRequestCodes
         {
-            _canResize = false;
-            this.Header = new FinsCommandHeader(this);
+            IO_MemoryAreaAccess = 01, 
+            StatusReading = 06
         }
 
-        internal enum FinsCommandCodes
+        public enum FinsSubRequestCodes
         {
-            MemoryAreaRead_MainRequestCode = 01,
-            MemoryAreaRead_SubRequestCode = 01,
-            MemoryAreaWrite_MainRequestCode = 01,
-            MemoryAreaWrite_SubRequestCode = 02
+            MemoryAreaRead = 01,
+            MemoryAreaWrite = 02,
+            CycleTimeRead = 20
         }
-
 
 
 
@@ -58,7 +55,8 @@ namespace Omron.Commands.Frames.Fins
         {
             Unknown = 0,
             MemoryAreaRead = 01,
-            MemoryAreaWrite = 02
+            MemoryAreaWrite = 02,
+            CycleTimeRead = 06
         }
 
         public FinsCommands Command
@@ -70,16 +68,26 @@ namespace Omron.Commands.Frames.Fins
                 mrc = GetByte((int)FinsCommandFields.MRC);
                 src = GetByte((int)FinsCommandFields.SRC);
 
-                switch (mrc)
+                switch ((FinsMainRequestCodes)mrc)
                 {
-                    case 1:
+                    case FinsMainRequestCodes.IO_MemoryAreaAccess: 
                         //Read, Write, Fill, Mutli read, transfer
                         switch (src)
                         {
-                            case 1:
+                            case (int)FinsSubRequestCodes.MemoryAreaRead:
                                 return FinsCommands.MemoryAreaRead;
-                            case 2:
+                            case (int)FinsSubRequestCodes.MemoryAreaWrite:
                                 return FinsCommands.MemoryAreaWrite;
+                            default:
+                                break;
+                        }
+
+                        break;
+                    case FinsMainRequestCodes.StatusReading:
+                        switch (src)
+                        {
+                            case (int)FinsSubRequestCodes.CycleTimeRead:
+                                return FinsCommands.CycleTimeRead;
                             default:
                                 break;
                         }
@@ -96,14 +104,17 @@ namespace Omron.Commands.Frames.Fins
                 switch (value)
                 {
                     case FinsCommands.MemoryAreaRead:
-                        this.SetByte((int)FinsCommandFields.MRC, (byte)FinsCommandCodes.MemoryAreaRead_MainRequestCode);
-                        this.SetByte((int)FinsCommandFields.SRC, (byte)FinsCommandCodes.MemoryAreaRead_SubRequestCode);
+                        this.SetByte((int)FinsCommandFields.MRC, (byte)FinsMainRequestCodes.IO_MemoryAreaAccess);
+                        this.SetByte((int)FinsCommandFields.SRC, (byte)FinsSubRequestCodes.MemoryAreaRead);
                         break;
                     case FinsCommands.MemoryAreaWrite:
-                        this.SetByte((int)FinsCommandFields.MRC, (byte)FinsCommandCodes.MemoryAreaWrite_MainRequestCode);
-                        this.SetByte((int)FinsCommandFields.SRC, (byte)FinsCommandCodes.MemoryAreaWrite_SubRequestCode);
+                        this.SetByte((int)FinsCommandFields.MRC, (byte)FinsMainRequestCodes.IO_MemoryAreaAccess);
+                        this.SetByte((int)FinsCommandFields.SRC, (byte)FinsSubRequestCodes.MemoryAreaWrite);
                         break;
-
+                    case FinsCommands.CycleTimeRead:
+                        this.SetByte((int)FinsCommandFields.MRC, (byte)FinsMainRequestCodes.StatusReading);
+                        this.SetByte((int)FinsCommandFields.SRC, (byte)FinsSubRequestCodes.CycleTimeRead);
+                        break;
                     default:
                         break;
                 }
@@ -114,7 +125,14 @@ namespace Omron.Commands.Frames.Fins
             : base(12)
         {
             _canResize = true;
-            this.Header = new FinsCommandHeader(this);
+            this.Header = new FinsCommandHeader(this, true);
+        }
+
+
+        public FinsCommandFrame(Frame originalFrame) : base(originalFrame.BuildFrame())
+        {
+            _canResize = false;
+            this.Header = new FinsCommandHeader(this, false);
         }
 
         private void SetParameterDataField(byte[] field)

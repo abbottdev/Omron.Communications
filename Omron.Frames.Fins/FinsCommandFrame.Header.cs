@@ -14,10 +14,12 @@ namespace Omron.Commands.Frames.Fins
         {
             private FinsCommandFrame command;
 
-            public FinsCommandHeader(FinsCommandFrame frame)
+            public FinsCommandHeader(FinsCommandFrame frame, bool resetHeaderToDefaults)
             {
                 command = frame;
-                InitialiseHeader();
+
+                if (resetHeaderToDefaults)
+                    InitialiseHeader();
             }
 
             public bool ResponseRequired

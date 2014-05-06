@@ -8,17 +8,19 @@ namespace Omron.Responses.Fins
 {
     public class FinsResponseFrame : Frame
     {
+        
+        public FinsResponseFrame(Frame original)
+            : base(original.BuildFrame())
+        {
 
+        }
         public FinsResponseFrame(byte[] buffer)
             : base(buffer)
         {
              
         }
 
-        private void ValidateFrameAsResponseFrame()
-        {
 
-        }
 
     }
 }
