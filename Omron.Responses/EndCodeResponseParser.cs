@@ -76,16 +76,28 @@ namespace Omron.Responses
                     return GetSubcodeDescription(1, this.SubCode);
                 }
             }
+            public LocalNodeErrorException(int subcode, int mainCode)
+            {
+                this.SubCode = subcode;
+                this.MainCode = mainCode;
+            }
 
             public override string ToString()
             {
                 var sb = new StringBuilder();
 
-                sb.AppendFormat("{0}: \"{1}\" (Main: {2}, Sub-code: {3}) Please check {4}", this.GetType().Name, this.SubCodeDescription, 1, this.SubCode, GetSubcodeCheckpoint(1, this.SubCode));
+                sb.AppendFormat("{0}: \"{1}\" (Main: {2}, Sub-code: {3}) Please check {4}", this.GetType().Name, this.SubCodeDescription, 1, this.SubCode, GetSubcodeCheckpoint(this.MainCode, this.SubCode));
                 sb.AppendLine().Append(base.ToString());
 
                 return sb.ToString();
             }
+
+            public int MainCode { get; set; }
+        }
+
+        public static bool IsValidEndCode(byte mainCode, byte subCode)
+        {
+            return mainCode == 0 && subCode == 0;
         }
     }
 }

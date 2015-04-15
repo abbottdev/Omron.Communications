@@ -27,7 +27,9 @@ namespace Omron.WindowsApp
             {
                 Address = "10.146.80.92",
                 Port = "9600",
-                Serial = false
+                Serial = false,
+                DestinationNode = 1,
+                SourceNode = 2
             };
 
             provider = new Omron.Transport.Provider(configuration);

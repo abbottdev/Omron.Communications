@@ -38,16 +38,34 @@ namespace Omron.Responses.Fins
                 response.OriginalCommand = command;
             }
 
+
+// Reset info using 
+//2768
+
             //Now ensure that the response frame bytes also match.
-            Contract.Requires(commandFrame.GetByte(MRC) == receivedFame.GetByte(MRC), "The main request codes between the response frame and the command frame to not match");
-            Contract.Requires(commandFrame.GetByte(SRC) == receivedFame.GetByte(SRC), "The sub request codes between the response frame and the command frame to not match");
+            if (commandFrame.GetByte(MRC) != receivedFame.GetByte(MRC)) 
+                throw new InvalidOperationException("The main request codes between the response frame and the command frame to not match");
+
+            if (commandFrame.GetByte(SRC) != receivedFame.GetByte(SRC))
+                throw new InvalidOperationException("The sub request codes between the response frame and the command frame to not match");
+
+            //Assert the End code
+
+            var received = new FinsResponseFrame(receivedFame);
+
+            if (Omron.Responses.EndCodeResponseParser.IsValidEndCode(received.EndCodeCategory, received.EndCodeDetails))
+            {
+                response.Parse(commandFrame, receivedFame);
+
+                //Find an instance of an interface that implements the above.
+                return response;
+            }
+            else
+            {
+                throw new Omron.Responses.EndCodeResponseParser.LocalNodeErrorException(received.EndCodeDetails, received.EndCodeCategory);
+            }
 
 
-
-            response.Parse(commandFrame, receivedFame);
-
-            //Find an instance of an interface that implements the above.
-            return response;
         }
 
     }

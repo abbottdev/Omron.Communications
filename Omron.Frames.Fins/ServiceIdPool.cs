@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Omron.Commands.Frames.Fins
 {
     public sealed class ServiceManager
     {
+        private static int serviceIdLast; 
 
         public static byte GetServiceId()
         {
-            var rnd = new Random();
+            var serviceId = Interlocked.Increment(ref serviceIdLast);
+            
+            //Reset to zero if at max value
+            Interlocked.CompareExchange(ref serviceIdLast, (int)byte.MinValue, (int)byte.MaxValue);
 
-            return (byte)rnd.Next(Byte.MinValue, Byte.MaxValue);
+            return (byte)serviceId;
         }
 
         //private static Core.ResourcePool<byte> _instance;

@@ -31,10 +31,8 @@ namespace Omron.Commands.Generators.Fins
              
             commandFrame.Header.ResponseRequired = true;
             commandFrame.Header.ServiceId = ServiceManager.GetServiceId();
-//            commandFrame.Header.DestinationNodeAddress = Omron.Core.IpAddressParser.ParseIpAddressNode(configuration.Address);
-            commandFrame.Header.DestinationNodeAddress = 1;
-            commandFrame.Header.SourceNodeAddress = 2; //TODO: This node must match an entry in the IP Address table on THe PLC. (Only if on a diff subnet, otherwise it can just match your IP address!)
-
+            commandFrame.Header.DestinationNodeAddress = configuration.DestinationNode;
+            commandFrame.Header.SourceNodeAddress = configuration.SourceNode;
 
             commandFrame.Command = FinsCommandFrame.FinsCommands.MemoryAreaRead;
 

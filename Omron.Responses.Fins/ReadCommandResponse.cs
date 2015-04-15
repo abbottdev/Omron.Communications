@@ -28,6 +28,12 @@ namespace Omron.Responses.Fins
 
             byte[] data = finsFrame.Data;
 
+            //is this a read of bits or bytes (words) 
+            Omron.Commands.Frames.Fins.FinsCommandFrame command = new Commands.Frames.Fins.FinsCommandFrame(commandFrame);
+
+            Omron.Commands.Frames.Fins.FinsReadCommandParameter param = Commands.Frames.Fins.FinsReadCommandParameter.FromBytes(command.Parameter);
+
+            
 
         }
 
