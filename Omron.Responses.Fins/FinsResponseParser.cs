@@ -43,6 +43,7 @@ namespace Omron.Responses.Fins
             Contract.Requires(commandFrame.GetByte(SRC) == receivedFame.GetByte(SRC), "The sub request codes between the response frame and the command frame to not match");
 
 
+
             response.Parse(commandFrame, receivedFame);
 
             //Find an instance of an interface that implements the above.

@@ -16,13 +16,18 @@ namespace Omron.Responses.Fins
 
         public void Parse(Frame commandFrame, Frame responseFrame)
         {
-            byte[] bytes = commandFrame.GetRange(commandFrame.Length, responseFrame.Length - commandFrame.Length);
+         //   byte[] bytes = commandFrame.GetRange(commandFrame.Length, responseFrame.Length - commandFrame.Length);
 
             //Bytes will be the bit or words returned.
 
-            string value = Convert.ToString(bytes);
+           // string value = Convert.ToString(bytes);
 
-            response = Convert.ToInt32(value);
+           // response = Convert.ToInt32(value);
+
+            var finsFrame = new FinsResponseFrame(responseFrame);
+
+            byte[] data = finsFrame.Data;
+
 
         }
 

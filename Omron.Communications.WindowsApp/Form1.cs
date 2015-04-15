@@ -25,7 +25,7 @@ namespace Omron.WindowsApp
 
             configuration = new PlcConfiguration()
             {
-                Address = "10.146.80.90",
+                Address = "10.146.80.92",
                 Port = "9600",
                 Serial = false
             };

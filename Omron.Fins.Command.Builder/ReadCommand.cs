@@ -24,7 +24,6 @@ namespace Omron.Commands.Generators.Fins
             FinsReadCommandParameter parameter;
             Omron.Commands.Frames.Fins.FinsCommandFrame commandFrame;
 
-
             //Variable initialization.
             commandFrame = new Omron.Commands.Frames.Fins.FinsCommandFrame();
 
@@ -32,7 +31,10 @@ namespace Omron.Commands.Generators.Fins
              
             commandFrame.Header.ResponseRequired = true;
             commandFrame.Header.ServiceId = ServiceManager.GetServiceId();
-            commandFrame.Header.DestinationNodeAddress = Omron.Core.IpAddressParser.ParseIpAddressNode(configuration.Address);
+//            commandFrame.Header.DestinationNodeAddress = Omron.Core.IpAddressParser.ParseIpAddressNode(configuration.Address);
+            commandFrame.Header.DestinationNodeAddress = 1;
+            commandFrame.Header.SourceNodeAddress = 2; //TODO: This node must match an entry in the IP Address table on THe PLC. (Only if on a diff subnet, otherwise it can just match your IP address!)
+
 
             commandFrame.Command = FinsCommandFrame.FinsCommands.MemoryAreaRead;
 

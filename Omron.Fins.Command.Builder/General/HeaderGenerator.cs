@@ -18,9 +18,16 @@ namespace Omron.Commands.Generators.Fins
                     return BuildTcpIpFinsHeader(frame);
                 case ProtocolTypes.FinsHostLink:
                     return BuildHostLinkFinsHeader(frame);
+                case ProtocolTypes.FinsUdp:
+                    return BuildFinsUdpHeader(frame);
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        private static Frame BuildFinsUdpHeader(Frame frame)
+        {
+            return null;
         }
 
         private static Frame BuildHostLinkFinsHeader(Frame frame)

@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Omron.Transport.Windows.Udp;
 
 namespace Omron.Transport
 {
@@ -35,7 +36,7 @@ namespace Omron.Transport
             //Communication Provider 
             Kernel
                 .Bind<ITransport>()
-                .To<Omron.Transport.Windows.Tcp.TcpCommunicationProvider>()
+                .To<UdpCommunicationProvider>()
                 .When(request => configuration.Serial == false)
                 .InThreadScope();
 
@@ -74,6 +75,10 @@ namespace Omron.Transport
               .Bind<IResponseParser>()
               .To<Responses.Fins.FinsResponseParser>()
                 .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
+            kernel
+                          .Bind<IResponseParser>()
+                          .To<Responses.Fins.FinsResponseParser>()
+                            .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsUdp);
 
             //Commands - Read Command
             kernel
@@ -90,13 +95,19 @@ namespace Omron.Transport
             //Command Generators - ReadCommandExpression. Used to generate the command frame that's sent to the plc.
             kernel
                 .Bind<IFrameGeneratorOf<IReadCommand>>()
-                .To<Omron.Commands.Generators.Fins.ReadCommandFrameGenerator>()
-                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
+                .To<Omron.Commands.Generators.Fins.ReadCommandFrameGenerator>();
+            // .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
 
             kernel
                 .Bind<IFrameGeneratorOf<IConnectionCommand>>()
                 .To<Omron.Commands.Generators.Fins.ConnectionFrameGenerator>()
                 .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
+
+            kernel
+                .Bind<IFrameGeneratorOf<IConnectionCommand>>()
+                .To<Omron.Commands.Generators.Fins.ConnectionFrameGenerator>()
+                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsUdp);
+
         }
 
         /// <summary>
@@ -110,7 +121,7 @@ namespace Omron.Transport
 
             if (!base.Transport.Connected)
             {
-                if (await base.Transport.ConnectAsync(base.Configuration))
+                if (await base.Transport.ConnectAsync(base.Configuration) && this.Transport.ProtocolType == ProtocolTypes.FinsTcpIp)
                 {
 
                     //Generate an initial connection command if one is required for this protocol/transport.

@@ -17,6 +17,8 @@ namespace Omron.Commands.Generators.Fins
                     return BuildTcpIpFinsFooter(frame);
                 case ProtocolTypes.FinsHostLink:
                     return BuildHostLinkFinsFooter(frame);
+                case ProtocolTypes.FinsUdp:
+                    return null;
                 default:
                     throw new NotImplementedException();
             }

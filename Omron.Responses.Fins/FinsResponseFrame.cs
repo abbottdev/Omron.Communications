@@ -8,7 +8,7 @@ namespace Omron.Responses.Fins
 {
     public class FinsResponseFrame : Frame
     {
-        
+
         public FinsResponseFrame(Frame original)
             : base(original.BuildFrame())
         {
@@ -17,10 +17,19 @@ namespace Omron.Responses.Fins
         public FinsResponseFrame(byte[] buffer)
             : base(buffer)
         {
-             
+
         }
 
 
+        private static readonly int FinsHeaderSize = 10;
+        private static readonly int FinsResponseCodeSize = 2;
 
+        public byte[] Data
+        {
+            get
+            {
+                return base.GetRange(FinsHeaderSize + FinsResponseCodeSize, base.Length);
+            }
+        }
     }
 }

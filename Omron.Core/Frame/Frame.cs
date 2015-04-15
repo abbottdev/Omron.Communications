@@ -147,10 +147,9 @@ namespace Omron.Core.Frames
             //            .Skip(startIndex)
             //            .Take(endIndex - startIndex)
             //            .ToArray();
-
-            for (var i = startIndex; i < endIndex; i++)
+            for (var i = 0; i < result.Length; i++)
             {
-                result[i - startIndex] = bytes[i];
+                result[i] = this.bytes[startIndex + i];
             }
 
             return result;
