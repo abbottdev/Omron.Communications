@@ -19,10 +19,10 @@ namespace Omron.Transport
     /// <summary>
     /// Main class used to communicate with devices.
     /// </summary>
-    public class Provider : ProviderBase, IProvider
+    public class Win32FinsDriver : CommunicationDriver, IDriver
     {
 
-        public Provider(PlcConfiguration configuration)
+        public Win32FinsDriver(PlcConfiguration configuration)
             : base(configuration, new StandardKernel())
         {
         }
@@ -47,7 +47,7 @@ namespace Omron.Transport
                 .When(request => configuration.Serial == true)
                 .InThreadScope();
 
-            BindTypesForTcpCommunication(configuration, base.Kernel);
+            BindTypesForEthernetCommunication(configuration, base.Kernel);
 
             BindTypesForSerialCommunication(configuration, base.Kernel);
 
@@ -68,17 +68,12 @@ namespace Omron.Transport
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="kernel"></param>
-        private static void BindTypesForTcpCommunication(PlcConfiguration configuration, IKernel kernel)
+        private static void BindTypesForEthernetCommunication(PlcConfiguration configuration, IKernel kernel)
         {
             //Response Parser 
             kernel
               .Bind<IResponseParser>()
-              .To<Responses.Fins.FinsResponseParser>()
-                .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
-            kernel
-                          .Bind<IResponseParser>()
-                          .To<Responses.Fins.FinsResponseParser>()
-                            .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsUdp);
+              .To<Responses.Fins.FinsResponseParser>();
 
             //Commands - Read Command
             kernel

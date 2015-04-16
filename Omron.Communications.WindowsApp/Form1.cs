@@ -12,7 +12,7 @@ namespace Omron.WindowsApp
 {
     public partial class Form1 : Form
     {
-        Omron.Core.IProvider provider;
+        Omron.Core.IDriver provider;
 
         public Form1()
         {
@@ -32,7 +32,7 @@ namespace Omron.WindowsApp
                 SourceNode = 2
             };
 
-            provider = new Omron.Transport.Provider(configuration);
+            provider = new Omron.Transport.Win32FinsDriver(configuration);
             this.connectedLabel.Text = provider.Connected.ToString();
         }
 

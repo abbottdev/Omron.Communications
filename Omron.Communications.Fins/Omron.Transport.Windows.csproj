@@ -84,9 +84,9 @@
       <Project>{63907897-98e0-4dd3-92c9-a606237e8359}</Project>
       <Name>Omron.Transport.Windows.SerialPort</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Omron.Communications\Omron.Transport.csproj">
+    <ProjectReference Include="..\Omron.Communications\Omron.csproj">
       <Project>{ed80e36f-2888-4463-894f-0b2a8ede46a7}</Project>
-      <Name>Omron.Transport</Name>
+      <Name>Omron</Name>
     </ProjectReference>
     <ProjectReference Include="..\Omron.Core\Omron.Core.csproj">
       <Project>{a63dc130-2189-483e-8989-96168609e2d6}</Project>

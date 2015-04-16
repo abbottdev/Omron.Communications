@@ -11,10 +11,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Omron.Transport
+namespace Omron
 {
 
-    public abstract class ProviderBase : IDisposable
+    public abstract class CommunicationDriver : IDisposable, IDriver
     {
         protected IKernel Kernel { get; private set; }
         protected PlcConfiguration Configuration { get; private set; }
@@ -22,7 +22,7 @@ namespace Omron.Transport
         protected IResponseParser Parser { get; private set; }
         protected IReadCommandExpression ReadAreaCommandBuilder { get; private set; }
 
-        public ProviderBase(PlcConfiguration configuration, IKernel kernel)
+        public CommunicationDriver(PlcConfiguration configuration, IKernel kernel)
         {
             this.Kernel = kernel;
             this.Configuration = configuration;
@@ -40,7 +40,7 @@ namespace Omron.Transport
         /// <param name="area"></param>
         /// <param name="readLength"></param>
         /// <returns></returns>
-        protected async Task<string> ReadAreaAsync(string area, int readLength)
+        protected async Task<object> ReadAreaAsync(string area, int readLength, byte plcUnit = 0)
         {
             Core.Frames.Frame receivedFrame, frameToSend;
             IResponseForReadCommand response;
@@ -67,10 +67,10 @@ namespace Omron.Transport
             if (response == null)
                 throw new ArgumentException("Response command was correct, but type was unexpected");
 
-            return response.Response.ToString();
+            return response.Response;
         }
 
-        protected async Task WriteAreaAsync(string area, byte[] dataToWrite)
+        protected async Task WriteAreaAsync(string area, byte[] dataToWrite, byte plcUnit = 0)
         {
             throw new NotImplementedException();
         }
@@ -140,5 +140,29 @@ namespace Omron.Transport
                     Transport.Disconnect();
             }
         }
+
+        #region IDriver Members
+
+        public async Task<bool> ConnectAsync()
+        {
+            return await this.Transport.ConnectAsync(this.Configuration);
+        }
+
+        public void Disconnect()
+        {
+            this.Transport.Disconnect();
+        }
+
+        public Task<float> ReadCycleTimeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Connected
+        {
+            get { return this.Transport.Connected; }
+        }
+
+        #endregion
     }
 }
