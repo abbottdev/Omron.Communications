@@ -10,25 +10,30 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
 using System.Net;
+using System.Net.Sockets;
 
 
 namespace Omron.Transport.Windows.Udp
 {
     public class UdpCommunicationProvider : ITransport
     {
-        private System.Net.Sockets.UdpClient client;
+        private UdpClient client;
         private IPEndPoint endpoint;
+
 
         public UdpCommunicationProvider()
         {
             client = new System.Net.Sockets.UdpClient(9600);
         }
 
-        public async System.Threading.Tasks.Task<bool> ConnectAsync(PlcConfiguration device)
+        public async Task<bool> ConnectAsync(PlcConfiguration device)
         {
             this.endpoint = new IPEndPoint(IPAddress.Parse(device.Address), Convert.ToInt32(device.Port));
-            client.Connect(this.endpoint);
-//            client.Connect(device.Address, Convert.ToInt32(device.Port));
+
+            await Task.Factory.StartNew(() =>
+            {
+                client.Connect(this.endpoint);
+            });
 
             return client.Client.Connected;
         }
@@ -39,22 +44,18 @@ namespace Omron.Transport.Windows.Udp
                 client.Close();
         }
 
-        public async System.Threading.Tasks.Task SendAsync(Omron.Core.Frames.Frame frame)
+        public async Task SendAsync(Omron.Core.Frames.Frame frame)
         {
             byte[] bytes = frame.BuildFrame();
 
             await client.SendAsync(bytes, bytes.Length);
         }
 
-        public async System.Threading.Tasks.Task<Frame> ReceiveAsync()
+        public async Task<Frame> ReceiveAsync()
         {
-            byte[] bytes;
+            var result = await client.ReceiveAsync();
 
-            var result = client.Receive(ref endpoint);
-
-
-
-            return new Frame(result);
+            return new Frame(result.Data);
         }
 
         public bool Connected
