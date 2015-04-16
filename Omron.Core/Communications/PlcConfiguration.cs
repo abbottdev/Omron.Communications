@@ -27,6 +27,8 @@ namespace Omron.Core
 
         public Omron.Core.MemoryAreaParser.PlcMemoryModes PlcMemoryMode { get; set; }
 
+        public bool PreferTcpIp { get; set; }
+
         public PlcConfiguration()
         {
             this.Options = new Dictionary<string, string>();

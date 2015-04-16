@@ -40,7 +40,7 @@ namespace Omron
         /// <param name="area"></param>
         /// <param name="readLength"></param>
         /// <returns></returns>
-        protected async Task<object> ReadAreaAsync(string area, int readLength, byte plcUnit = 0)
+        public async Task<object> ReadAreaAsync(string area, int readLength, byte plcUnit = 0)
         {
             Core.Frames.Frame receivedFrame, frameToSend;
             IResponseForReadCommand response;
@@ -70,7 +70,7 @@ namespace Omron
             return response.Response;
         }
 
-        protected async Task WriteAreaAsync(string area, byte[] dataToWrite, byte plcUnit = 0)
+        public async Task WriteAreaAsync(string address, byte[] data, byte plcUnit = 0)
         {
             throw new NotImplementedException();
         }

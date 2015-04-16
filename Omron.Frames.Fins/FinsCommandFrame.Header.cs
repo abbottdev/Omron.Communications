@@ -83,11 +83,11 @@ namespace Omron.Commands.Frames.Fins
             {
                 get
                 {
-                    return command.GetByte((int)FinsHeaderFields.DA1);
+                    return command.GetByte((int)FinsHeaderFields.DA2);
                 }
                 set
                 {
-                    command.SetByte((int)FinsHeaderFields.DA1, value);
+                    command.SetByte((int)FinsHeaderFields.DA2, value);
                 }
             }
 

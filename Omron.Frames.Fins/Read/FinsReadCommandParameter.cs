@@ -31,9 +31,8 @@ namespace Omron.Commands.Frames.Fins
             var bit = bytes[(int)ReadCommandParameterIndex.BitAddress];
             var numberOfReads = bytes[(int)ReadCommandParameterIndex.NumberOfReads] + bytes[(int)ReadCommandParameterIndex.NumberOfReads + 1];
 
-            var address = BitConverter.ToInt32(new byte[] {
-                bytes[(int)ReadCommandParameterIndex.ReadAddress_Hex1], 
-                bytes[(int)ReadCommandParameterIndex.ReadAddress_Hex2]}, 0);
+            var address = Convert.ToInt32(bytes[(int)ReadCommandParameterIndex.ReadAddress_Hex1].ToString("X2") + bytes[(int)ReadCommandParameterIndex.ReadAddress_Hex2].ToString("X2"), 16);
+
 
             return new FinsReadCommandParameter(memoryAreaCode, address, bit, numberOfReads);
             

@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Omron.Commands
 {
-    public interface IConnectionCommand : ICommand
+    public interface IPostConnectionCommand : ICommand
     {
         int SourceUnitAddress { get; set; }
     }
 
-    public class ConnectionCommand : IConnectionCommand
+    public class ConnectionCommand : IPostConnectionCommand
     {
 
         public int SourceUnitAddress { get; set; }

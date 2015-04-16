@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Omron.Responses.Fins
 {
-    public interface IResponseForConnectionCommand : IResponse<IConnectionCommand>
+    public interface IResponseForConnectionCommand : IResponse<IPostConnectionCommand>
     {
         int SourceUnitAddress { get; }
     }
@@ -24,7 +24,7 @@ namespace Omron.Responses.Fins
 
         public int SourceUnitAddress { get; private set; }
 
-        public IConnectionCommand OriginalCommand { get; set; }
+        public IPostConnectionCommand OriginalCommand { get; set; }
 
         public void Parse(Frame responseFrame)
         {

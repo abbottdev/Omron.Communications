@@ -37,7 +37,13 @@ namespace Omron.Transport
             Kernel
                 .Bind<ITransport>()
                 .To<UdpCommunicationProvider>()
-                .When(request => configuration.Serial == false)
+                .When(request => configuration.Serial == false && configuration.PreferTcpIp == false)
+                .InThreadScope();
+
+            Kernel
+                .Bind<ITransport>()
+                .To<TcpCommunicationProvider>()
+                .When(request => configuration.Serial == false && configuration.PreferTcpIp == true)
                 .InThreadScope();
 
             //Use Serial port provider if configuration is set to use it.
@@ -94,12 +100,12 @@ namespace Omron.Transport
             // .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
 
             kernel
-                .Bind<IFrameGeneratorOf<IConnectionCommand>>()
+                .Bind<IFrameGeneratorOf<IPostConnectionCommand>>()
                 .To<Omron.Commands.Generators.Fins.ConnectionFrameGenerator>()
                 .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsTcpIp);
 
             kernel
-                .Bind<IFrameGeneratorOf<IConnectionCommand>>()
+                .Bind<IFrameGeneratorOf<IPostConnectionCommand>>()
                 .To<Omron.Commands.Generators.Fins.ConnectionFrameGenerator>()
                 .When(request => kernel.Get<ITransport>().ProtocolType == ProtocolTypes.FinsUdp);
 
@@ -122,11 +128,16 @@ namespace Omron.Transport
                     //Generate an initial connection command if one is required for this protocol/transport.
                     command = new ConnectionCommand();
 
-                    frame = Kernel.Get<IFrameGeneratorOf<IConnectionCommand>>().Generate(command, Configuration, Transport);
+                    frame = Kernel.Get<IFrameGeneratorOf<IPostConnectionCommand>>().Generate(command, Configuration, Transport);
 
                     await Transport.SendAsync(frame);
 
                     receivedFrame = await Transport.ReceiveAsync();
+
+                    //Lets try setting our SA1 (Source Node Number) - equal to what we got in the response from the PLC.
+                    Configuration.SourceNode = receivedFrame.GetByte(19);
+
+
 
                     //TODO: Does the received frame need any further parsing?
                     //For TcpIp/Fins I don't believe it's required as the SourceunitAddress (SA1) is auto allocated
@@ -170,7 +181,7 @@ namespace Omron.Transport
         }
 
 
-        public new async Task<string> ReadAreaAsync(string address, int readLength)
+        public new async Task<object> ReadAreaAsync(string address, int readLength)
         {
             return await base.ReadAreaAsync(address, readLength);
         }

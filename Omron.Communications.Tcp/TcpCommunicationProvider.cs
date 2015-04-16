@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Ninject.Modules;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 
 namespace Omron.Transport.Windows.Tcp
@@ -16,7 +17,8 @@ namespace Omron.Transport.Windows.Tcp
     public class TcpCommunicationProvider : ITransport
     {
         private TcpClient client;
-        
+        private NetworkStream stream;
+
         /// <summary>
         /// Connects to a PLC
         /// </summary>
@@ -27,7 +29,12 @@ namespace Omron.Transport.Windows.Tcp
             client = new TcpClient();
 
             await client.ConnectAsync(device.Address, Convert.ToInt32(device.Port));
-            
+
+            if (client.Connected)
+            {
+                this.stream = client.GetStream();
+            }
+
             return client.Connected;
         }
 
@@ -38,6 +45,9 @@ namespace Omron.Transport.Windows.Tcp
         {
             if (client != null && client.Connected)
                 client.Close();
+
+            if (stream != null)
+                stream.Close();
         }
 
         /// <summary>
@@ -49,24 +59,51 @@ namespace Omron.Transport.Windows.Tcp
         {
             byte[] bytes = frame.BuildFrame();
 
-            await client.GetStream().WriteAsync(bytes, 0, bytes.Length - 1);
+            Trace.WriteLine("Sending: " + Environment.NewLine +  frame.ToString());
+
+            await stream.WriteAsync(bytes, 0, bytes.Length - 1);
         }
 
         public async Task<Frame> ReceiveAsync()
         {
-            byte[] bytes;
+            byte[] buffer;
+            int read = 0;
+            const int READ_SIZE = 512;
 
-            if (client.GetStream().DataAvailable)
-            {
-                bytes = new byte[client.Available - 1];
+            buffer = new byte[client.ReceiveBufferSize];
 
-                await client.GetStream().ReadAsync(bytes, 0, client.Available - 1);
-            }
-            else
+            int chunk;
+
+            while ((chunk = await stream.ReadAsync(buffer, read, buffer.Length - read)) > 0)
             {
-                bytes = null;
+                read += chunk;
+
+                if (read == buffer.Length)
+                {
+                    int nextByte = stream.ReadByte();
+
+                    if (nextByte == -1)
+                    {
+                        break;
+                    }
+
+                    byte[] newBuffer = new byte[buffer.Length * 2];
+                    Array.Copy(buffer, newBuffer, buffer.Length);
+                    newBuffer[read] = (byte)nextByte;
+                    buffer = newBuffer;
+                    read++;
+                }
             }
-            return new Frame(bytes);
+
+            // Buffer is now too big. Shrink it.
+            byte[] ret = new byte[read];
+            Array.Copy(buffer, ret, read);
+
+            var frame = new Frame(ret);
+
+            Trace.WriteLine("Received: " + Environment.NewLine + frame.ToString());
+
+            return frame;
         }
 
         /// <summary>

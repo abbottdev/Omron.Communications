@@ -44,7 +44,7 @@ namespace Omron.Commands.Generators.Fins
             //trame = FINS_TCPHeader & Right$("00000000" & Hex$((Len(trame) + 16) / 2), 8) & "0000000200000000" & trame
 
             header += FINS_TCP_HEADER;
-            header += frame.Length.ToString("X2").PadLeft(8, Convert.ToChar("0"));
+            header += (frame.Length + 16).ToString("X2").PadLeft(8, Convert.ToChar("0"));
             header += "00000002";//Not sure what the use of this is yet.
             header += "00000000"; //Says this is the 'command'
 

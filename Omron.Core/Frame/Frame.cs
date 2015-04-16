@@ -199,7 +199,7 @@ namespace Omron.Core.Frames
             {
                 if (others[i] != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Copying {0} at offset {1}, i: {2}, offset: {3}", others[i].BuildFrame().ToStringWithFormat(), offset, i, offset);
+                    //System.Diagnostics.Debug.WriteLine("Copying {0} at offset {1}, i: {2}, offset: {3}", others[i].BuildFrame().ToStringWithFormat(), offset, i, offset);
                     others[i].BuildFrame().CopyTo(bytes, offset);
                     offset += others[i].Length;
                 }

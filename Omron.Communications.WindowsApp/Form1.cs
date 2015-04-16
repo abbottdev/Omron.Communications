@@ -29,7 +29,8 @@ namespace Omron.WindowsApp
                 Port = "9600",
                 Serial = false,
                 DestinationNode = 1,
-                SourceNode = 2
+                SourceNode = 2,
+                PreferTcpIp = false
             };
 
             provider = new Omron.Transport.Win32FinsDriver(configuration);
@@ -40,7 +41,7 @@ namespace Omron.WindowsApp
         {
             var result = await provider.ReadAreaAsync(txtAddress.Text, 3);
 
-            resultLabel.Text = result;
+            resultLabel.Text = result.ToString();
 
         }
 
